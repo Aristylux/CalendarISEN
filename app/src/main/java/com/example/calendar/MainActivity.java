@@ -204,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 downloader.Downloading(this, dateFile, findViewById(R.id.main), firstName, lastName, false);
             }
         }
+
+        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), file_name_save, dateFile);
+        downloader.Downloading(this, dateFile, findViewById(R.id.main), firstName, lastName, false);
         //Log.d("myLog", "open fragment");
         //openFragment(dateFile);
         //Routine.executeRoutineTest(findViewById(R.id.main), this, 20, firstName, lastName, dateFile);

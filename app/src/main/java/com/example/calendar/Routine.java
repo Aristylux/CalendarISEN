@@ -460,6 +460,7 @@ public class Routine {
             //Log.d("myLogT", i + " Line : " + line);
             a++;
             progressBarSnack.setProgress(a * 13);
+            Log.d("myLogA", a + " : " + line);
         }
 
         Log.d("myLogA", "list size " + ListTest.size() + " | " + a);

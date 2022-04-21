@@ -185,7 +185,7 @@ public class ExtractInformation {
      * this names are different
      */
     private static boolean compareName(String lessonName, String anotherName) {
-        //Log.d("myLog", "compare : " + lessonName + " | " + anotherName);
+        Log.d("myLogAc", "compare : " + lessonName + " | " + anotherName);
         //calculate if 3 first letter contain a accent
         int compare = 4;
         if (Pattern.matches(".*[éàèêë]*.", lessonName)){
@@ -193,13 +193,15 @@ public class ExtractInformation {
         }
         //show 3 first letters
         int verification = 0;
-        for (int i = 0; i < 4; i++){
-            Pattern pattern = Pattern.compile(String.valueOf(anotherName.charAt(i)), Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(String.valueOf(lessonName.charAt(i)));
-            //Log.d("myLog", "compare : " + lessonName.charAt(i) + " | " + anotherName.charAt(i));
-            if (matcher.find()){
-                //Log.d("myLog", "same : " + lessonName.charAt(i) + " | " + anotherName.charAt(i));
-                verification++;
+        if (anotherName.length() > 4) {
+            for (int i = 0; i < 4; i++) {
+                Pattern pattern = Pattern.compile(String.valueOf(anotherName.charAt(i)), Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(String.valueOf(lessonName.charAt(i)));
+                //Log.d("myLog", "compare : " + lessonName.charAt(i) + " | " + anotherName.charAt(i));
+                if (matcher.find()) {
+                    //Log.d("myLog", "same : " + lessonName.charAt(i) + " | " + anotherName.charAt(i));
+                    verification++;
+                }
             }
         }
         if (verification >= compare && lessonName.length() == anotherName.length()+1){ //not 3 if a accent
