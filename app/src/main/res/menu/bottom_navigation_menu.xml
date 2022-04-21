@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_weekly"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        android:title="@string/bottom_home_weekly"/>
+    <item
+        android:id="@+id/home_daily"
+        android:icon="@drawable/ic_baseline_today_24"
+        android:title="@string/bottom_home_daily" />
+    <item
+        android:id="@+id/home_settings"
+        android:title="@string/bottom_home_settings"
+        android:icon="@drawable/ic_baseline_settings_24" />
+
+</menu>

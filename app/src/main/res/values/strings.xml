@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">ISEN Calendar</string>
+
+    <!-- Home -->
+    <string name="home_page_title_daily">Daily</string>
+    <string name="home_page_title_weekly">Weekly</string>
+    <string name="last_lessons_section">Lessons today</string>
+
+    <string name="today_month">Month</string>
+    <string name="today_day">Day</string>
+
+    <!-- Course customise -->
+    <string name="home_page_course_name">Course name</string>
+    <string name="home_page_course_start_time">Start</string>
+    <string name="home_page_course_end_time">End</string>
+    <string name="home_page_course_type">Type</string>
+    <string name="home_page_course_classroom">Class</string>
+    <string name="home_page_course_description">Course description</string>
+
+    <!-- Popup welcome -->
+    <string name="popup_welcome_title">Welcome !</string>
+    <string name="popup_welcome_description">I need your last name and first name</string>
+    <string name="user_firstname_input">First name</string>
+    <string name="user_lastname_input">Last name</string>
+
+    <string name="message_require">Required *</string>
+    <string name="message_firstname_incorrect">Your First name is incorrect.</string>
+    <string name="message_lastname_incorrect">Your Last name is incorrect.</string>
+
+    <string name="popup_save_button">Save</string>
+    <string name="popup_cancel_button">Cancel</string>
+    <string name="popup_confirm_button">Yes I\'m sure</string>
+    <string name="popup_close_button">Close</string>
+
+    <!-- Popup detail description course -->
+    <string name="popup_course_name">Course Name</string>
+    <string name="popup_course_classroom_title">Classroom</string>
+    <string name="popup_course_classroom_subtitle">The classroom</string>
+    <string name="popup_course_hours_title">Duration</string>
+    <string name="popup_course_hours_start_subtitle">Start</string>
+    <string name="popup_course_hours_end_subtitle">End</string>
+    <string name="popup_course_hours_duration_subtitle">Duration</string>
+    <string name="popup_course_type_title">Type</string>
+    <string name="popup_course_type_subtitle">Type of course</string>
+    <string name="popup_course_teacher_title">Teacher</string>
+    <string name="popup_course_teachers_title">Teachers</string>
+    <string name="popup_course_teacher_subtitle">The name of the teachers</string>
+
+    <string name="no_lesson">No lessons today !</string>
+
+    <string name="navigation_fragment_before">Before</string>
+    <string name="navigation_fragment_next">Next</string>
+
+    <!-- description navigation bar -->
+    <string name="bottom_home_weekly">Weekly</string>
+    <string name="bottom_home_daily">Daily</string>
+    <string name="bottom_home_settings">Settings</string>
+
+    <!-- punctuation -->
+    <string name="dash">-</string>
+    <string name="colon">:</string>
+
+    <!-- days -->
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+
+    <string name="weekly_day">Nbr</string>
+
+    <!-- snack bar messages -->
+    <string name="snack_bar_success_message">Upgrade succeed.</string>
+    <string name="snack_bar_failure_message">Upgrade fail…</string>
+    <string name="snack_bar_update_message">Update…</string>
+    <string name="snack_bar_check_message">Check…</string>
+
+    <!-- Settings activity -->
+    <string name="toolbar_main_title">Me</string>
+    <!-- Main container -->
+    <string name="setting_title_language">Select Language</string>
+    <string name="setting_subtitle_language">Change your language</string>
+
+    <string name="setting_title_darkMode">Dark Mode</string>
+    <string name="setting_subtitle_darkMode">System</string>
+
+    <string name="setting_darkMode_message">If system is selected, our application will automatically adjust your appearance based on your device\'s system settings</string>
+
+    <!-- Setting Profile container -->
+    <string name="setting_title_container_profile">Profile</string>
+
+    <string name="setting_subtitle_lastname">Change your last name</string>
+
+    <string name="setting_subtitle_firstname">Change your first name</string>
+
+    <!-- Setting Application container -->
+    <string name="setting_title_container_application">Application</string>
+
+    <string name="setting_title_note">Like the application?</string>
+    <string name="setting_subtitle_note">Note!</string>
+
+    <string name="setting_title_share">Share our application</string>
+
+    <string name="setting_title_report">Report a bug</string>
+
+    <string name="setting_title_copyright">Copyright 2022</string>
+
+    <string name="setting_title_reset">Reset the application</string>
+    <string name="setting_subtitle_reset">Delete all data</string>
+    <string name="popup_setting_reset_title">Are you sure?</string>
+    <string name="popup_setting_reset_subtitle">All data will be deleted !</string>
+
+    <string name="popup_setting_reset_confirmation_title">All data are deleted.</string>
+    <string name="popup_setting_reset_confirmation_subtitle">you need to restart the application.</string>
+
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/bottom_nav_color.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/box_stroke_color.xml" value="0.2175925925925926" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/button_backgroud.xml" value="0.18162393162393162" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/button_background.xml" value="0.3141025641025641" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/button_blue_round.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/button_green_round.xml" value="0.3141025641025641" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/button_red_round.xml" value="0.3141025641025641" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/custom_edit_text_cursor.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/custom_progress_bar.xml" value="0.1683760683760684" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_baseline_error_24.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_baseline_insert_emoticon_24.xml" value="0.13703703703703704" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_before.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_next.xml" value="0.1829059829059829" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ic_type.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/menu_daily.xml" value="0.21770833333333334" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/navigation_bar_menu_dark.xml" value="0.13425925925925927" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/navigation_bar_menu_light.xml" value="0.13425925925925927" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/progress_bar_infinite.xml" value="0.14722222222222223" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/radio_button_color.xml" value="0.3141025641025641" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/drawable/ripple_effect.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/activity_dark_mode.xml" value="0.17478632478632478" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/activity_popup_course.xml" value="0.25" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/activity_settings.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/button_save.xml" value="0.4959349593495935" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_blank.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_daily.xml" value="0.22" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_setting_menu.xml" value="0.4332627118644068" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_theme.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_weekly.xml" value="0.2773480662983425" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/fragment_weekly_test.xml" value="0.30085470085470084" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/item_vertical_course.xml" value="0.29289940828402367" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/item_vertical_course_test.xml" value="0.4645426515930113" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/popup.xml" value="0.2015625" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/popup_confirmation.xml" value="0.25" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/popup_course.xml" value="0.42779587404994573" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/popup_warning.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/popup_welcome.xml" value="0.31875" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/snackbar_check.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/snackbar_custom.xml" value="0.24406047516198703" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/snackbar_failure.xml" value="0.5339087546239211" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/snackbar_success.xml" value="0.5" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/test_frag.xml" value="0.67" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/layout/test_preference.xml" value="0.33" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.5" />
+        <entry key="..\:/Users/Axel/AndroidStudioProjects/Calendar/app/src/main/res/xml/preference.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RequiresApi" />
+    </list>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

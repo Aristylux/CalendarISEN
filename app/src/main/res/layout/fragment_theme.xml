@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/SettingContainer"
+    android:id="@+id/mainLayout">
+
+    <androidx.appcompat.widget.Toolbar
+        style="@style/ToolbarStyle"
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+
+        <androidx.cardview.widget.CardView
+            style="@style/BoxStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_names">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/close_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/SelectableItemBackground"
+                    android:backgroundTint="@color/white">
+
+                    <ImageView
+                        style="@style/ButtonClose"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_before" />
+                </RelativeLayout>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tool_bar_title"
+            style="@style/ToolbarTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="Dark theme"
+            app:layout_constraintBottom_toBottomOf="@+id/close_button"
+            app:layout_constraintStart_toEndOf="@+id/close_button"
+            app:layout_constraintTop_toTopOf="@+id/close_button" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+
+        <RadioButton
+            android:id="@+id/radioButtonLight"
+            style="@style/MyRadioButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Light"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioButton
+            android:id="@+id/radioButtonDark"
+            style="@style/MyRadioButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Dark"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonLight" />
+
+        <RadioButton
+            android:id="@+id/radioButtonSystem"
+            style="@style/MyRadioButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="System"
+            app:layout_constraintTop_toBottomOf="@+id/radioButtonDark"
+            android:checked="true"/>
+
+    </RadioGroup>
+
+    <TextView
+        style="@style/ParameterSubtitleTextStyle"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        android:text="@string/setting_darkMode_message"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

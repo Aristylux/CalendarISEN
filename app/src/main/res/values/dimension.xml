@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_margin">20dp</dimen>
+    <dimen name="item_course_margin">10dp</dimen>
+    <dimen name="item_course_box_margin">5dp</dimen>
+
+    <dimen name="weekly_margin_top">50dp</dimen>
+    <dimen name="weekly_border">0dp</dimen>
+    <dimen name="weekly_margin_bottom">2dp</dimen>
+
+    <dimen name="popup_round_corner">15dp</dimen>
+    <dimen name="space_between_word">5dp</dimen>
+
+    <dimen name="corner_radius">20dp</dimen>
+    
+    <dimen name="setting_height_box">70dp</dimen>
+</resources>

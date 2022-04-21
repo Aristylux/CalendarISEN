@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Application">
+
+        <Preference
+            android:title="Like the app?"
+            android:summary="note !" />
+
+        <Preference
+            android:title="Share the app"
+            android:icon="@drawable/ic_baseline_share_24"/>
+
+        <Preference
+            android:title="Report a bug"
+            android:icon="@drawable/ic_baseline_bug_report_24"/>
+
+        <Preference
+            android:title="Copyright 2022"
+            android:icon="@drawable/ic_baseline_copyright_24"/>
+
+        <Preference
+            android:title="Reset the app"
+            android:icon="@drawable/ic_baseline_settings_backup_restore_24"
+            android:key="reset"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

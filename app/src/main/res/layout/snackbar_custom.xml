@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/snackbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="1dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardBackgroundColor="@color/lightGrey"
+        app:cardUseCompatPadding="false">
+
+        <!-- app:cardUseCompatPadding="true"
+         app:cardCornerRadius="10dp"
+         android:layout_marginBottom="80dp"
+         -->
+        <ProgressBar
+            android:id="@+id/progress_bar_snack"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:progressDrawable="@drawable/custom_progress_bar"/>
+
+        <TextView
+            android:id="@+id/snackbar_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/snack_bar_update_message"
+            style="@style/SnackBarStyle"
+            android:layout_gravity="center"/>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

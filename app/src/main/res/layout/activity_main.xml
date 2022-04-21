@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#4AF5F6F6"
+    android:id="@+id/main">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        style="@style/TopBarStyle"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- android:background="@color/white"-->
+<!-- android:paddingBottom="10dp"-->
+        <TextView
+            android:id="@+id/app_title"
+            style="@style/DefaultTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/app_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/page_title"
+            style="@style/TitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_page_title_daily"
+            app:layout_constraintStart_toStartOf="@+id/app_title"
+            app:layout_constraintTop_toBottomOf="@+id/app_title" />
+
+        <TextView
+            android:id="@+id/day"
+            style="@style/TitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/today_day"
+            app:layout_constraintEnd_toEndOf="@+id/month"
+            app:layout_constraintTop_toBottomOf="@+id/month" />
+
+        <TextView
+            android:id="@+id/month"
+            style="@style/TitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:text="@string/today_month"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#4D202122"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout" />
+    <!--
+    layout_above
+    only Relative Layout -->
+    <!--
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="80dp" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/item_course_box_margin"
+            android:layout_marginEnd="@dimen/item_course_box_margin"
+            android:orientation="vertical"/>
+
+    </FrameLayout>
+-->
+
+    <!--
+    <fragment
+        android:id="@+id/fragment_daily"
+        android:name="com.example.calendar.TestFrag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="80dp"
+        class="com.example.calendar.TestFrag"
+
+        />
+        -->
+    <!-- class="com.example.calendar.TestFrag"
+     android:layout_marginBottom="80dp"
+     android:visibility="invisible"-->
+
+    <!--
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="80dp"/>
+    -->
+
+    <androidx.fragment.app.FragmentContainerView
+        style="@style/FragmentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_container"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="80dp"/>
+
+
+
+
+<!--
+    <fragment
+        android:id="@+id/fragment_weekly"
+        android:name="com.example.calendar.FragmentWeekly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="180dp"
+        class="com.example.calendar.FragmentWeekly"
+        />
+-->
+
+    <!-- Coordinator Layout used to position the SnackBar -->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cl"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="68dp"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_bar"
+        style="@style/BottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:itemIconSize="25dp"
+        app:itemRippleColor="@color/transparent"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+    <!--
+    app:itemTextColor="@drawable/menu_daily"
+        app:itemIconTint="@drawable/menu_daily"
+    -->
+
+    <!--
+        android:longClickable="true"
+        android:focusable="true"
+        android:clickable="true"
+        android:focusableInTouchMode="true"/>
+-->
+
+    <!--
+    android:background="@color/blue"
+    app:itemRippleColor="@color/transparent"
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:orientation="vertical" />
+
+
+    </FrameLayout>
+-->
+ <!-- android:background="@color/lightGrey" -->
+
+
+
+    <!--
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/daily" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    -->
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_before"
+        style="@style/ButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="22dp"
+        android:background="@drawable/button_blue_round"
+        android:text="@string/navigation_fragment_before"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_next"
+        style="@style/ButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="22dp"
+        android:background="@drawable/button_blue_round"
+        android:text="@string/navigation_fragment_next"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@+id/navigation_bar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

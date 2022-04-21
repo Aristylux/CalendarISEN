@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        style="@style/PopupStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:cardCornerRadius="@dimen/popup_round_corner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_round_warning_24"
+                app:tint="@color/red" />
+
+            <TextView
+                style="@style/DeleteTitleTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/popup_setting_reset_title"
+                android:layout_margin="20dp"
+                android:textAlignment="center" />
+
+            <TextView
+                style="@style/DeleteTextStyle"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/popup_setting_reset_subtitle"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="30dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/confirm_button"
+                    style="@style/ButtonStyle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_red_round"
+                    android:text="@string/popup_confirm_button"
+                    android:layout_marginEnd="10dp"
+                    android:textAllCaps="false"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancel_button"
+                    style="@style/ButtonStyle"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/button_blue_round"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/popup_cancel_button"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

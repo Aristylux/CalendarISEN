@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        style="@style/PopupStyle"
+        app:cardCornerRadius="@dimen/corner_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+<!-- app:cardBackgroundColor="@color/white" -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentEnd="true">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/PopupTitleStyle"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="@dimen/corner_radius"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- app:cardBackgroundColor="@color/background"-->
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                        app:layout_constraintTop_toBottomOf="@+id/teacher_title"
+                        android:scrollbars="none"
+                        android:overScrollMode="never">
+
+                        <TextView
+                            android:id="@+id/course_name"
+                            style="@style/TitleTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="20dp"
+                            android:text="@string/popup_course_name" />
+
+                    </ScrollView>
+                    <!--
+                    <TextView
+                        android:id="@+id/course_name"
+                        style="@style/TitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/popup_course_name"
+                        android:padding="@dimen/item_course_margin"/>
+                    -->
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/miniature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/item_course_margin">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="8dp"
+                    android:elevation="5dp"
+                    style="@style/PopupTitleStyle"
+                    app:cardCornerRadius="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/image_type_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/ic_launcher"
+                        android:scaleType="centerCrop"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/blockInformation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/title"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_toStartOf="@+id/miniature">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="@+id/blockInformation"
+                    app:layout_constraintLeft_toLeftOf="@+id/blockInformation">
+
+                    <TextView
+                        android:id="@id/classroom_title"
+                        style="@style/TitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_classroom_title" />
+
+                    <TextView
+                        android:id="@+id/classroom_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_classroom_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/classroom_title" />
+
+                    <TextView
+                        android:id="@+id/duration_title"
+                        style="@style/TitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:text="@string/popup_course_hours_title"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                        app:layout_constraintTop_toBottomOf="@+id/classroom_subtitle" />
+
+                    <LinearLayout
+                        android:id="@+id/time_subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                        app:layout_constraintTop_toBottomOf="@+id/duration_title">
+
+                        <TextView
+                            android:id="@+id/time_start_subtitle"
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/popup_course_hours_start_subtitle" />
+
+                        <TextView
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_between_word"
+                            android:layout_marginRight="@dimen/space_between_word"
+                            android:text="@string/dash" />
+
+                        <TextView
+                            android:id="@+id/time_end_subtitle"
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/popup_course_hours_end_subtitle" />
+
+                        <TextView
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/space_between_word"
+                            android:layout_marginRight="@dimen/space_between_word"
+                            android:text="@string/colon" />
+
+                        <TextView
+                            android:id="@+id/time_duration_subtitle"
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/popup_course_hours_duration_subtitle" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/type_title"
+                        style="@style/TitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:text="@string/popup_course_type_title"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                        app:layout_constraintTop_toBottomOf="@+id/time_subtitle" />
+
+                    <TextView
+                        android:id="@+id/type_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_type_subtitle"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                        app:layout_constraintTop_toBottomOf="@+id/type_title" />
+
+                    <TextView
+                        android:id="@+id/teacher_title"
+                        style="@style/TitleTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_margin"
+                        android:text="@string/popup_course_teacher_title"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                        app:layout_constraintTop_toBottomOf="@+id/type_subtitle" />
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                        app:layout_constraintTop_toBottomOf="@+id/teacher_title"
+                        android:scrollbars="none"
+                        android:overScrollMode="never"
+                        android:layout_marginBottom="@dimen/default_margin">
+
+                        <TextView
+                            android:id="@+id/teacher_subtitle"
+                            style="@style/DefaultTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/popup_course_teacher_subtitle" />
+
+                    </ScrollView>
+
+                </LinearLayout>
+                <!--
+                <TextView
+                    android:id="@id/classroom_title"
+                    style="@style/TitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popup_course_classroom_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/classroom_subtitle"
+                    style="@style/DefaultTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popup_course_classroom_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/classroom_title" />
+
+                <TextView
+                    android:id="@+id/duration_title"
+                    style="@style/TitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:text="@string/popup_course_hours_title"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                    app:layout_constraintTop_toBottomOf="@+id/classroom_subtitle" />
+
+                <LinearLayout
+                    android:id="@+id/time_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/duration_title">
+
+                    <TextView
+                        android:id="@+id/time_start_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_hours_start_subtitle" />
+
+                    <TextView
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_between_word"
+                        android:layout_marginRight="@dimen/space_between_word"
+                        android:text="@string/dash" />
+
+                    <TextView
+                        android:id="@+id/time_end_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_hours_end_subtitle" />
+
+                    <TextView
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_between_word"
+                        android:layout_marginRight="@dimen/space_between_word"
+                        android:text="@string/colon" />
+
+                    <TextView
+                        android:id="@+id/time_duration_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_hours_duration_subtitle" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/type_title"
+                    style="@style/TitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:text="@string/popup_course_type_title"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                    app:layout_constraintTop_toBottomOf="@+id/time_subtitle" />
+
+                <TextView
+                    android:id="@+id/type_subtitle"
+                    style="@style/DefaultTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popup_course_type_subtitle"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/type_title" />
+
+                <TextView
+                    android:id="@+id/teacher_title"
+                    style="@style/TitleTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:text="@string/popup_course_teacher_title"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_title"
+                    app:layout_constraintTop_toBottomOf="@+id/type_subtitle" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/teacher_title">
+
+                    <TextView
+                        android:id="@+id/teacher_subtitle"
+                        style="@style/DefaultTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/popup_course_teacher_subtitle" />
+
+                </ScrollView>
+         -->
+                <!--
+                <TextView
+                    android:id="@+id/teacher_subtitle"
+                    style="@style/DefaultTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/popup_course_teacher_subtitle"
+                    app:layout_constraintStart_toStartOf="@+id/classroom_subtitle"
+                    app:layout_constraintTop_toBottomOf="@+id/teacher_title" />
+-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

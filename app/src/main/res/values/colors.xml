@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="backgroundColorLight">#FFFFFFFF</color>
+    <color name="backgroundColorDark">#FF000000</color>
+
+    <color name="darkGrey">#202122</color>
+    <color name="halfGrey">#5E5E5E</color>
+    <color name="lightGrey">#989CA0</color>
+    <color name="rippleGrey">#BABDC1</color>
+
+    <color name="blue">#5377D3</color>
+    <color name="darkRed">#711731</color>
+    <color name="red">#d35377</color>
+    <color name="lightRed">#FFC5D5</color>
+    <color name="darkGreen">#608C4E</color>
+    <color name="green">#77d353</color>
+    <color name="lightGreen">#8FCF75</color>
+
+    <color name="orange">#FF9100</color>
+    
+    <color name="project">#ffe599</color>
+    <color name="exam">#ea9999</color>
+    <color name="lecture">#cfe2f3</color>
+    <color name="tp">#f9cb9c</color>
+    <color name="td">#a2c4c9</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="background">#F2F8FF</color>
+    <color name="selected">#673AB7</color>
+
+    <color name="progressBarBackground">#E8C500</color>
+    <color name="progressBarProgress">#FFD902</color>
+    <color name="progressBarCheckBackground">#DA7C00</color>
+    <color name="progressBarCheckProgress">#FF9100</color>
+
+
+</resources>
