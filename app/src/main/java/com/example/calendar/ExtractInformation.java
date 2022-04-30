@@ -212,6 +212,7 @@ public class ExtractInformation {
         }
     }
 
+
     /*
      * formatConcatenateLessonName :
      *
