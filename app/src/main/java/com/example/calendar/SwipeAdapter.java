@@ -14,6 +14,10 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.List;
 
+/**
+ * Not used
+ */
+
 public class SwipeAdapter extends PagerAdapter {
 
     private Context context;

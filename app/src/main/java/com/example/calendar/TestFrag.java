@@ -16,6 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Not used
+ * (swipe adapter)
+ */
+
 public class TestFrag extends Fragment {
 
     RecyclerView mRecyclerView;

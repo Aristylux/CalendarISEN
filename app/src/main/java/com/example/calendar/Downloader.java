@@ -80,7 +80,7 @@ public class Downloader {
                 context.startActivity(intent);
             }
         } catch (Exception e) {
-            Log.d("myLog", "Error: " + e.toString());
+            Log.d("myLog", "Error: " + e);
         }
     }
 

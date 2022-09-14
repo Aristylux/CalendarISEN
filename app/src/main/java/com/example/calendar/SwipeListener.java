@@ -6,6 +6,10 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+/**
+ * Not used
+ */
+
 class SwipeListener implements View.OnTouchListener {
     //initialize variable
     GestureDetector gestureDetector;

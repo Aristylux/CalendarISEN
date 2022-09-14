@@ -4,6 +4,11 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+/**
+ * CountClass:
+ * help to visualize the navigation for the day
+ */
+
 public class CountClass {
 
     int countWeek, countDay;

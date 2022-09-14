@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+  Not used.
+ */
+
+/*
  * A simple {@link Fragment} subclass.
  * Use the {@link BlankFragment#newInstance} factory method to
  * create an instance of this fragment.

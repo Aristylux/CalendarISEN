@@ -5,6 +5,10 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Not Used
+ */
+
 public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
     private final int verticalSpaceHeight;

@@ -158,20 +158,14 @@ public class ExtractInformation {
                 for (int i = 0; i < MAX_CHARACTER; i++){
                     newLesson.append(lessonName.charAt(i));
                 }
-                //Log.d("myLogE", newLesson.toString());
-                //newLesson.append(' ');
-                //add three dots
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++) //add three dots
                     newLesson.append('.');
-                }
                 return newLesson.toString();
             } else {
                 //String anotherName = extractLessonNameExcept(SOSLine);
                 //if (anotherName.length() < MAX_CHARACTER && !compareName(lessonName, anotherName)){
-                if (!compareName(lessonName, anotherName)){
-                    //Log.d("myLogE", "replace");
+                if (!compareName(lessonName, anotherName)) //replace
                     return anotherName;
-                }
                 return lessonName;
             }
         } else {
@@ -193,7 +187,7 @@ public class ExtractInformation {
         }
         //show 3 first letters
         int verification = 0;
-        if (anotherName.length() > 4) {
+        if (anotherName.length() > 4 && lessonName.length() > 4) {
             for (int i = 0; i < 4; i++) {
                 Pattern pattern = Pattern.compile(String.valueOf(anotherName.charAt(i)), Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(String.valueOf(lessonName.charAt(i)));
@@ -204,12 +198,10 @@ public class ExtractInformation {
                 }
             }
         }
-        if (verification >= compare && lessonName.length() == anotherName.length()+1){ //not 3 if a accent
-            //Log.d("myLog", "it's the same");
+        if (verification >= compare && lessonName.length() == anotherName.length()+1) //not 3 if a accent
             return true; //it's the same name
-        } else {
+        else
             return false;
-        }
     }
 
 
@@ -683,7 +675,7 @@ public class ExtractInformation {
             return line;
         }
         catch (IOException e){
-            Log.d("myLog", "ExtractLine, An error occurred: " + e.toString());
+            Log.d("myLog", "ExtractLine, An error occurred: " + e);
             //Log.d("myLog", path + " | " + numberLine);
         }
         return "";

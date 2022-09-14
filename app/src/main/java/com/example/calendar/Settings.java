@@ -104,6 +104,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         SharedPreferences sharedPreferences = getSharedPreferences(UserSettings.PREFERENCE, MODE_PRIVATE);
         String theme = sharedPreferences.getString(UserSettings.CUSTOM_THEME, UserSettings.LIGHT_THEME);
         settings.setCustomTheme(theme);
+        //set preference (UserSettings settings)
         TextView text = findViewById(R.id.subtitle_dark_mode);
         switch (settings.getCustomTheme()){
             case UserSettings.LIGHT_THEME:

@@ -72,17 +72,15 @@ public class MainActivity extends AppCompatActivity {
         DateClass today = new DateClass();
         day.setText(today.getDay());
         month.setText(today.getDateMonth());
-        /* End date */
 
-        //for file
         dateFile = today.getSimpleDate();
         Log.d("myLog", "Today : " + dateFile);
 
-        checkPermission();  // ---- check authorizations ----
-        loadSharedPreferences();
-        getNameGuest();     //get firstName and lastName
+        checkPermission();              //Check authorizations
+        loadSharedPreferences();        //Load preference (dark mode,..)
+        getNameGuest();                 //Get firstName and lastName
+        getSchedule();                  //Download schedule
 
-        getSchedule();
         count = new CountClass(NEXT, BEFORE);
         Log.d("myLog", "end declaration");
         //ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
@@ -98,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         //show fragment
         //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
+        //Buttons Next and Before
+
         Button buttonNext = findViewById(R.id.button_next);
         Button buttonBefore = findViewById(R.id.button_before);
 
@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("myLogN", "button Next clicked");
             changeButton(NEXT);
         });
-
         buttonBefore.setOnClickListener(view -> {
             Log.d("myLogN", "button Before clicked");
             changeButton(BEFORE);
@@ -154,14 +153,21 @@ public class MainActivity extends AppCompatActivity {
         updateDate(verifiedDate);
     }
 
+    /**
+     * verificationDate:
+     *
+     * for avoid to show weekend
+     * 6 -> SATURDAY
+     * 7 -> SUNDAY
+     */
     private String verificationDate(String date, boolean type){
         String dateVerified = date; //current date
         int nextDayOfTheWeek = CalculateUtil.nbrDayOfTheWeek(date);
-        if (nextDayOfTheWeek == 6) {    //+2 SATURDAY to MONDAY
+        if (nextDayOfTheWeek == 6) {    //+2 -> SATURDAY to MONDAY
             count.countWeek(type, 2, 1);
             count.countDay(type, 2, 1);
             dateVerified = CalculateUtil.calculateDate(dateFile, count.getCountDay());
-        } else if (nextDayOfTheWeek == 7) {      //+1 SUNDAY to MONDAY
+        } else if (nextDayOfTheWeek == 7) {      //+1 -> SUNDAY to MONDAY
             count.countWeek(type, 1, 2);
             count.countDay(type, 1, 2);
             dateVerified = CalculateUtil.calculateDate(dateFile, count.getCountDay());
@@ -203,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(UserSettings.PREFERENCE, MODE_PRIVATE);
         String theme = sharedPreferences.getString(UserSettings.CUSTOM_THEME, UserSettings.LIGHT_THEME);
         settings.setCustomTheme(theme);
-
+        //set preference (UserSettings settings)
         switch (settings.getCustomTheme()){
             case UserSettings.LIGHT_THEME:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
