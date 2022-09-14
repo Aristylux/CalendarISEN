@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     String lastName;
     String dateFile;
 
-    //int countDay, countWeek;
     CountClass count;
 
     private static final boolean DAILY = true;
@@ -132,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * changeButton:
+     * Action when button Next or Before is clicked.
+     */
     private void changeButton(boolean type){
         Fragment selectedFragment;
         String nextDate;
@@ -146,12 +149,10 @@ public class MainActivity extends AppCompatActivity {
             count.countWeek(type, 7);
             nextDate = CalculateUtil.calculateDate(dateFile, count.getCountWeek());
         }
-        String date1 = verificationDate(nextDate, type);
-        sendData(selectedFragment, date1, dateFile, firstName, lastName);    //send data
-        updateDate(date1);
+        String verifiedDate = verificationDate(nextDate, type);
+        sendData(selectedFragment, verifiedDate, dateFile, firstName, lastName);    //send data
+        updateDate(verifiedDate);
     }
-
-
 
     private String verificationDate(String date, boolean type){
         String dateVerified = date; //current date
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         return dateVerified;
     }
 
-    /*
+    /**
      * sendData:
      * send data to a new fragment
      * and open the fragment
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransactionT.commit();
     }
 
-    /*
+    /**
      * checkPermission:
      * check permission user
      * if our application are not the permission
@@ -226,14 +227,8 @@ public class MainActivity extends AppCompatActivity {
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
                 sendData(new FragmentWeekly(), dateFile, dateFile, firstName, lastName);
-                //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);
-                int nbr = CalculateUtil.nbrDayOfTheWeek(dateFile);
-                if (nbr == 6)
-                    count.setCountWeek(2);
-                else if (nbr == 7)
-                    count.setCountWeek(1);
-                else
-                    count.setCountWeek(0);
+                //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
+                count.avoidWeekend(dateFile);
                 updateDate(dateFile);
                 break;
             case R.id.home_daily:
@@ -246,8 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.home_settings:
                 Log.d("myLogN", "Settings");
-                //open new activity
-                Intent intent = new Intent(this, Settings.class);
+                Intent intent = new Intent(this, Settings.class);   //open new activity
                 //Intent intent = new Intent(this, ActivitySettings.class);
                 startActivity(intent);
                 break;

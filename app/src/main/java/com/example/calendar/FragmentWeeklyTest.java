@@ -21,6 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Not used for the moment
+ */
 
 public class FragmentWeeklyTest extends Fragment {
 
@@ -96,7 +99,7 @@ public class FragmentWeeklyTest extends Fragment {
         // and if week is the current week !
         if (cardView != null) {
             Log.d("myLogN", "set color");
-            cardView.setBackgroundTintList(ColorStateList.valueOf(Objects.requireNonNull(getActivity()).getColor(R.color.selected)));
+            cardView.setBackgroundTintList(ColorStateList.valueOf(requireActivity().getColor(R.color.selected)));
         }
         String newDate = CalculateUtil.calculateDate(date, count);
         Log.d("myLogN", "nextDay newDate : " + newDate + " | " + nbr);

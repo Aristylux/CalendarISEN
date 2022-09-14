@@ -8,6 +8,11 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+/**
+ * Not used :
+ * -> now used : Settings
+ */
+
 public class ActivitySettings extends AppCompatActivity {
 
     @Override

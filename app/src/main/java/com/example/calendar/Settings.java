@@ -16,8 +16,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
+/**
+ * Settings:
+ * when you click Setting on button navigation.
+ *
+ */
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +37,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //Log.d("myLogS", "Setting create Activity");
         settings = (UserSettings) getApplication();
         loadSharedPreferences();
 
@@ -87,22 +93,27 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         buttonReset.setOnClickListener(this);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //Log.d("myLogS", "Restart");
+        loadSharedPreferences(); //recharge preference
+    }
+
     private void loadSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences(UserSettings.PREFERENCE, MODE_PRIVATE);
         String theme = sharedPreferences.getString(UserSettings.CUSTOM_THEME, UserSettings.LIGHT_THEME);
         settings.setCustomTheme(theme);
         TextView text = findViewById(R.id.subtitle_dark_mode);
-        //set subtitle on dark theme
-        //settings.setCustomTheme(UserSettings.DARK_THEME);
         switch (settings.getCustomTheme()){
             case UserSettings.LIGHT_THEME:
-                text.setText("Light");
+                text.setText(R.string.setting_subtitle_darkMode_Light);
                 break;
             case UserSettings.DARK_THEME:
-                text.setText("Dark");
+                text.setText(R.string.setting_subtitle_darkMode_Dark);
                 break;
             case UserSettings.SYSTEM_THEME:
-                text.setText("System");
+                text.setText(R.string.setting_subtitle_darkMode_System);
                 break;
             default:
                 text.setText("");
@@ -118,6 +129,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.select_lang:
                 Log.d("myLogS", "click: select language");
+                showToast("This app is available only in English");
                 break;
             case R.id.select_light_mode:
                 Log.d("myLogS", "click: dark mode");
@@ -126,21 +138,27 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.select_lastname:
                 Log.d("myLogS", "click: select last name");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_firstname:
                 Log.d("myLogS", "click: select first name");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_like:
                 Log.d("myLogS", "click: select like");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_share:
                 Log.d("myLogS", "click: select share");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_report:
                 Log.d("myLogS", "click: select report");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_copyright:
                 Log.d("myLogS", "click: select copyright");
+                showToast("This functionality is unavailable for the moment");
                 break;
             case R.id.select_reset:
                 Log.d("myLogS", "click: reset");
@@ -177,25 +195,18 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         Log.d("myLog", "show");
         */
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("myLog", "confirm");
-                //delete
-                FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_save);
-                FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_data);
-                dialog.dismiss();   //close popup
-                OpenPopupConfirmation();
-            }
+        confirm.setOnClickListener(view -> {
+            Log.d("myLog", "confirm");
+            //delete
+            FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_save);
+            FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_data);
+            dialog.dismiss();   //close popup
+            OpenPopupConfirmation();
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("myLog", "cancel");
-                //close
-                dialog.dismiss();   //close popup
-            }
+        cancel.setOnClickListener(view -> {
+            Log.d("myLog", "cancel");
+            dialog.dismiss();   //close popup
         });
     }
 
@@ -213,6 +224,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 System.exit(1);
             }
         });
+    }
+
+    private void showToast(String toast){
+        Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_SHORT).show();
     }
 
 }

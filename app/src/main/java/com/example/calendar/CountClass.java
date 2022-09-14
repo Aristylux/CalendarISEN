@@ -1,5 +1,9 @@
 package com.example.calendar;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 public class CountClass {
 
     int countWeek, countDay;
@@ -54,6 +58,18 @@ public class CountClass {
 
     public int getCountWeek(){
         return countWeek;
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void avoidWeekend(String date){
+        int nbr = CalculateUtil.nbrDayOfTheWeek(date);
+        if (nbr == 6)
+            setCountWeek(2);
+        else if (nbr == 7)
+            setCountWeek(1);
+        else
+            setCountWeek(0);
     }
 
 }

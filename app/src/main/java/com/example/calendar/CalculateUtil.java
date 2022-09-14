@@ -16,6 +16,8 @@ public class CalculateUtil {
      * example :
      * 20220108
      * check what day is 8 January
+     * return :
+     * 1 to 7 ?
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static int nbrDayOfTheWeek(String date){

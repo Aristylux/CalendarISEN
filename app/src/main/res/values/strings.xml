@@ -82,7 +82,9 @@
     <string name="setting_subtitle_language">Change your language</string>
 
     <string name="setting_title_darkMode">Dark Mode</string>
-    <string name="setting_subtitle_darkMode">System</string>
+    <string name="setting_subtitle_darkMode_Light">Light</string>
+    <string name="setting_subtitle_darkMode_Dark">Dark</string>
+    <string name="setting_subtitle_darkMode_System">System</string>
 
     <string name="setting_darkMode_message">If system is selected, our application will automatically adjust your appearance based on your device\'s system settings</string>
 

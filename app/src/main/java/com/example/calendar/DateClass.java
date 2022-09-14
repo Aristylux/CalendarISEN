@@ -39,15 +39,15 @@ public class DateClass {
         year = String.valueOf(dated.getYear());
     }
 
-    String getDateMonth(){
+    public String getDateMonth(){
         return month + " " + year;
     }
 
-    String getDay(){
+    public String getDay(){
         return day + ", " + day_number;
     }
 
-    String getSimpleDate(){
+    public String getSimpleDate(){
         return formattedDateFile.format(currentTime);
     }
 
@@ -64,7 +64,10 @@ public class DateClass {
 
      */
 
-    /* number place Day and month  */
+    /* number place Day and month
+     * month between 1 and 12
+     * dat between 1 and 7
+     */
     /*
 
     Date date = new Date();

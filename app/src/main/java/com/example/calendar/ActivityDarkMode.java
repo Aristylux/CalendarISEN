@@ -1,19 +1,27 @@
 package com.example.calendar;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
+/**
+ * ActivityDarkMode:
+ * used in : Settings
+ *
+ * Menu when you click on Setting -> Dark Mode
+ * change screen :
+ * -> Light
+ * -> Dark
+ * -> System
+ */
 
 public class ActivityDarkMode extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,17 +74,17 @@ public class ActivityDarkMode extends AppCompatActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.radioButtonLight:
-                Log.d("myLogS", "light mode");
+                Log.d("myLogS", "Light mode");
                 settings.setCustomTheme(UserSettings.LIGHT_THEME);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case R.id.radioButtonDark:
-                Log.d("myLogS", "dark mode");
+                Log.d("myLogS", "Dark mode");
                 settings.setCustomTheme(UserSettings.DARK_THEME);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case R.id.radioButtonSystem:
-                Log.d("myLogS", "system mode");
+                Log.d("myLogS", "System mode");
                 settings.setCustomTheme(UserSettings.SYSTEM_THEME);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;
