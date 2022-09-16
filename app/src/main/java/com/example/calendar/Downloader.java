@@ -1,8 +1,9 @@
 package com.example.calendar;
 
-
 import static android.content.Context.DOWNLOAD_SERVICE;
 
+import static com.example.calendar.FilesUtil.getDirISENCalendar;
+import static com.example.calendar.FilesUtil.getFileNameSaveData;
 import static com.example.calendar.FilesUtil.saveNames;
 
 import android.app.DownloadManager;
@@ -26,28 +27,20 @@ public class Downloader {
 
     Context context;
     PopupWelcome popupWelcome;
-    String path, FirstName, LastName, fileNameSave, dateFile;
+    String dateFile, url;
     View theView;
+    FilesUtil filesUtil;
 
-    Downloader(Context Context, PopupWelcome PopupWelcome, View view, String FileNameSave, String DateFile) {
-        //menuPopupView = context.getLayoutInflater().inflate(R.layout.popup_welcome, null);
-        //popupWelcome = new PopupWelcome(context, view);
+    Downloader(Context Context, PopupWelcome PopupWelcome, View view, FilesUtil filesUtil) {
         context = Context;
         popupWelcome = PopupWelcome;
-        fileNameSave = FileNameSave;
         theView = view;
-        dateFile = DateFile;
+        this.dateFile = filesUtil.getDateFile();
+        this.filesUtil = filesUtil;
     }
 
-    void Downloading(Context context, String date, View view, String firstName, String lastName, boolean firstTime) {
-        LastName = lastName;
-        FirstName = firstName;
-        Log.d("myLogD", "last : " + lastName + " first " + firstName);
-        String pathLo = Environment.getExternalStorageDirectory().toString() + "/Download";
-        String file_name = firstName + "." + lastName + "_" + dateFile + ".ics";
-        String pathICS = pathLo + "/" + file_name;
-        path = pathICS;
-        String url = createUrl(firstName, lastName);
+    void Downloading(boolean firstTime) {
+        url = createUrl(filesUtil.getFirstName(), filesUtil.getLastName());
         Log.d("myLogD", "url : " + url);
         Uri downloadURI = Uri.parse(url);
         String title = URLUtil.guessFileName(url, null, null);    //create title
@@ -56,25 +49,28 @@ public class Downloader {
             if (downloadManager != null) {
                 DownloadManager.Request request = new DownloadManager.Request(downloadURI);
                 request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-
                 request.setTitle(title);    //set title in download notification
-                request.setDescription("Downloading...");   //description
+                request.setDescription("Downloading..");   //description
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
                 request.setAllowedOverMetered(true);
                 request.setAllowedOverRoaming(true);
-
                 request.allowScanningByMediaScanner();
+
                 //catching download complete event from android download manager which broadcast message
                 if (firstTime) {
+                    File dir = new File(FilesUtil.getPathDownload());   //"/Download/ISENCalendars/"
+                    dir.mkdirs(); // creates needed dir
                     context.registerReceiver(onCompleteFirst, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                 } else {
                     context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                 }
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/" + getDirISENCalendar() + filesUtil.getFileName());
+                //File file = new File(path);
+                //request.setDestinationUri(Uri.fromFile(file));    //Error: java.lang.SecurityException: Unsupported path
 
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, firstName + "." + lastName + "_" + dateFile + ".ics");
-                Log.d("myLogD", "download starting...");
+                Log.d("myLogD", "Download starting...");
                 downloadManager.enqueue(request); //start download
-                Log.d("myLogD", "wait...");
+                Log.d("myLogD", "Wait...");
             } else {
                 Intent intent = new Intent(Intent.ACTION_VIEW, downloadURI);
                 context.startActivity(intent);
@@ -98,15 +94,16 @@ public class Downloader {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void onReceive(Context context, Intent intent) {
             Log.d("myLogD", "Download finish on complete");
-            File file = new File(path);
+            //File file = new File(path);
+            File file = new File(filesUtil.getPathDownloadedFile());
             Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
             if (file.canRead()) {
                 //success
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, FirstName, LastName, dateFile);
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, filesUtil);
             } else {
                 //error
                 Log.d("myLog", "Error");
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 20, FirstName, LastName, dateFile);
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 20, filesUtil);
             }
         }
     };
@@ -118,21 +115,21 @@ public class Downloader {
             @Override
             public void run() {
                 Log.d("myLogTr", "Diff Thread : " + Thread.currentThread().getName());
-                Log.d("myLogTr", "Path: " + path);
+                Log.d("myLogTr", "Path: " + filesUtil.getPathDownloadedFile());
                 //check 10s -> time out;
-                File file = new File(path);
+                File file = new File(filesUtil.getPathDownloadedFile());
                 Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
                 //if (file.canRead()) break;
                 Log.d("myLogTr", "End thread");
                 if (file.canRead()) {
                     //success
-                    String[] names = {FirstName, LastName};
-                    if (saveNames(fileNameSave, names, context)) {
+                    String[] names = {filesUtil.getFirstName(), filesUtil.getLastName()};
+                    if (saveNames(getFileNameSaveData(), names, context)) {
                         Log.d("myLog", "dismiss");
                         //dialog.dismiss();   //close popup
                         popupWelcome.closePopup();
                         //executeRoutine(20);
-                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, FirstName, LastName, dateFile);
+                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, filesUtil);
                     } else {
                         Log.d("myLog", "error sys");
                         //contact moderator
@@ -196,14 +193,14 @@ public class Downloader {
     }
     */
 
-    /*
+    /**
      * createUrl:
      * create url :
      * https://ent-toulon.isen.fr/webaurion/ICS/firstName.lastName.ics
      * like :
      * https://ent-toulon.isen.fr/webaurion/ICS/axel.mezade.ics
      */
-    private String createUrl(String firstName, String lastName) {
+    public static String createUrl(String firstName, String lastName) {
         return "https://ent-toulon.isen.fr/webaurion/ICS/" + firstName + "." + lastName + ".ics";
     }
 

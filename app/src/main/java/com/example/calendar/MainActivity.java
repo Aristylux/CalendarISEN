@@ -28,6 +28,9 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
+import java.util.Arrays;
+
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends AppCompatActivity {
 
@@ -37,15 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView day,month;
 
-    private static final String file_name_save = "stat5.txt";
-    private static final String file_name_information = "information";
+    FilesUtil filesUtil;
 
-    //private static final String path_file_save = "/data/user/0/com.example.calendar/files/" + file_name_save;
-    //private final String path_file_save = getExternalFilesDir(null) + "/" + file_save;
-    //private static final String downloadPath = "/Android/data/com.example.calendar/files/";
-    String firstName;
-    String lastName;
-    String dateFile;
+    String dateFile;        // -> [OPTI] in filesUtil
 
     CountClass count;
 
@@ -78,13 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();              //Check authorizations
         loadSharedPreferences();        //Load preference (dark mode,..)
+        filesUtil = new FilesUtil(dateFile, this);
         getNameGuest();                 //Get firstName and lastName
+        //get network (just inform)
         getSchedule();                  //Download schedule
 
         count = new CountClass(NEXT, BEFORE);
-        Log.d("myLog", "end declaration");
-        //ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
-        //Log.d("myLogA", "analyzer path : " + contextWrapper.getDir("file", Context.MODE_PRIVATE));
 
         //set menu navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
@@ -92,12 +88,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
         //set first fragment
         Fragment fragment = new FragmentDaily();
-        sendData(fragment, dateFile, dateFile, firstName, lastName);    //send data
+        sendData(fragment, dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());    //send data
         //show fragment
         //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
 
         //Buttons Next and Before
-
         Button buttonNext = findViewById(R.id.button_next);
         Button buttonBefore = findViewById(R.id.button_before);
 
@@ -149,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             nextDate = CalculateUtil.calculateDate(dateFile, count.getCountWeek());
         }
         String verifiedDate = verificationDate(nextDate, type);
-        sendData(selectedFragment, verifiedDate, dateFile, firstName, lastName);    //send data
+        sendData(selectedFragment, verifiedDate, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());    //send data
         updateDate(verifiedDate);
     }
 
@@ -232,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                sendData(new FragmentWeekly(), dateFile, dateFile, firstName, lastName);
+                sendData(new FragmentWeekly(), dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
                 count.avoidWeekend(dateFile);
                 updateDate(dateFile);
@@ -241,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Daily");
                 MODE = DAILY;
                 stateTypeView.setText(R.string.home_page_title_daily);
-                sendData(new FragmentDaily(), dateFile, dateFile, firstName, lastName);
+                sendData(new FragmentDaily(), dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());
                 count.setCountDay(0);
                 updateDate(dateFile);
                 break;
@@ -261,23 +256,24 @@ public class MainActivity extends AppCompatActivity {
         month.setText(newDate.getDateMonth());
     }
 
-    /*
+    /**
      * if directory is not exist
      * we do not need to ask names
      */
     public void getNameGuest(){
-        String[] Names = readNames(file_name_save, this);
+        String[] Names = readNames(getFileNameSaveData(), this);
+        Log.d("myLog", Arrays.toString(Names));
         if ((Names.length) != 0){
-            firstName = Names[0];
-            lastName = Names[1];
-            Log.d("myLog", "names exist: axel :" + firstName + " | mzd: " + lastName);
+            filesUtil.setFirstName(Names[0]);
+            filesUtil.setLastName(Names[1]);
+            Log.d("myLog", "Names exist: " + filesUtil.getFirstName() + " | " + filesUtil.getLastName());
         } else {
             Log.d("myLog", "First time");
             PopupWelcome();
         }
     }
 
-    /*
+    /**
      * PopupWelcome:
      * show the popup welcome when the first time
      */
@@ -286,19 +282,19 @@ public class MainActivity extends AppCompatActivity {
         popupWelcome = new PopupWelcome(MainActivity.this, menuPopupView);
         popupWelcome.showPopup(this, menuPopupView);
 
-        //validate = menuPopupView.findViewById(R.id.validate);
-
         validateButton = menuPopupView.findViewById(R.id.button_save);
 
         textInputEditTextLastName = menuPopupView.findViewById(R.id.textInputEditTextUserLastName);
         textInputEditTextFirstName = menuPopupView.findViewById(R.id.textInputEditTextUserFirstName);
 
-        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), file_name_save, dateFile);
+        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil);
 
         validateButton.setOnClickListener(view -> {
             String[] names = popupWelcome.buttonActivated();
             Log.d("myLog", "names : " + names[0] + " - " + names[1]);
-            downloader.Downloading(this, dateFile, findViewById(R.id.main), names[1], names[0], true);
+            filesUtil.setFirstName(names[1]);
+            filesUtil.setLastName(names[0]);
+            downloader.Downloading(true);
 
             textInputEditTextLastName.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -326,21 +322,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * getSchedule:
+     * download schedule
+     */
     void getSchedule(){
-        //if(researchFile(getExternalFilesDir(null) + "/" + firstName + "." + lastName, dateResearch)){
-        if(researchFile(Environment.getExternalStorageDirectory().toString() + "/Download", dateFile)){
+        if(researchFile(getPathDownload(), dateFile)){
             Log.d("myLog", "File already exist");
             //no download
+            /* ---> get if the length is the same or not */
         }else {
             Log.d("myLog", "File doesn't exist");
-            if (firstName != null) {
-                Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), file_name_save, dateFile);
-                downloader.Downloading(this, dateFile, findViewById(R.id.main), firstName, lastName, false);
+            if (filesUtil.getFirstName() != null) {
+                //Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), file_name_save, dateFile, firstName, lastName);
+                //downloader.Downloading(this, false);
             }
         }
-
-        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), file_name_save, dateFile);
-        downloader.Downloading(this, dateFile, findViewById(R.id.main), firstName, lastName, false);
+        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil);
+        downloader.Downloading(false);
     }
-
 }

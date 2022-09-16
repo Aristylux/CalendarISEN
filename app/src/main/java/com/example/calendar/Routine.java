@@ -2,12 +2,12 @@ package com.example.calendar;
 
 import static com.example.calendar.ExtractInformation.*;
 import static com.example.calendar.ExtractInformation.formatConcatenateLessonName;
+import static com.example.calendar.FilesUtil.getPathDownload;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -345,20 +345,19 @@ public class Routine {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    static void executeRoutineTest(View view, Context context, int count, String firstName, String lastName, String dateFile) {
+    static void executeRoutineTest(View view, Context context, int count, FilesUtil filesUtil) {
         Log.d("myLog", "routine test");
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Runnable runnable = new Runnable() {
+            @SuppressLint("InflateParams")
             @Override
             public void run() {
                 View snackMessage;
                 if (count < 20) {
                     //success
                     //View custom = layoutInflater.inflate(R.layout.snackbar_custom, null);
-
-                    Routine.analyzer(view.findViewById(R.id.main), layoutInflater, firstName, lastName, dateFile);
-
+                    Routine.analyzer(view.findViewById(R.id.main), context, layoutInflater, filesUtil);
                     //Routine.analyzer(view.findViewById(R.id.main), layoutInflater, firstName, lastName, dateFile);
                     snackMessage = layoutInflater.inflate(R.layout.snackbar_success, null);
                 } else {
@@ -368,9 +367,9 @@ public class Routine {
                 Snackbar snackbar = Snackbar.make(view.findViewById(R.id.cl), "Updated.", Snackbar.LENGTH_SHORT);
                 snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-                snackbarLayout.setPadding(0, 0, 0, 0);
-                snackbarLayout.addView(snackMessage, 0);
+                Snackbar.SnackbarLayout snackBarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+                snackBarLayout.setPadding(0, 0, 0, 0);
+                snackBarLayout.addView(snackMessage, 0);
                 snackbar.show();
             }
         };
@@ -380,24 +379,35 @@ public class Routine {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static boolean analyzer(View view, LayoutInflater layoutInflater, String firstName, String lastName, String dateFile) {
+    public static boolean analyzer(View view, Context context, LayoutInflater layoutInflater, FilesUtil filesUtil) {
         CoordinatorLayout coordinatorLayout = view.findViewById(R.id.cl);
         Snackbar snackbar = Snackbar.make(coordinatorLayout, "Message", Snackbar.LENGTH_INDEFINITE);
-        View custom = layoutInflater.inflate(R.layout.snackbar_custom, null);
+        @SuppressLint("InflateParams") View custom = layoutInflater.inflate(R.layout.snackbar_custom, null);
         //snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE);
         snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
-        Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-        snackbarLayout.setPadding(0, 0, 0, 0);
-        snackbarLayout.addView(custom, 0);
+        Snackbar.SnackbarLayout snackBarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackBarLayout.setPadding(0, 0, 0, 0);
+        snackBarLayout.addView(custom, 0);
         snackbar.show();
 
+        // ***********
         //String path = Environment.getExternalStorageDirectory().toString() + "/Download" + "/" + firstName + "." + lastName + "_" + dateFile + ".ics";
-        String path = Environment.getExternalStorageDirectory().toString() + "/Download";
-        String file_name = firstName + "." + lastName + "_" + dateFile + ".ics";
-        String pathICS = path + "/" + file_name;
-        @SuppressLint("SdCardPath") String pathApp = "/data/user/0/com.example.calendar/files/";
+        //String path = Environment.getExternalStorageDirectory().toString() + "/Download";
+        //String file_name = firstName + "." + lastName + "_" + dateFile + ".ics";
+        //String pathICS = path + "/ISENCalendars/" + file_name;
 
+        //String pathICS = context.getFilesDir() + "/" + file_name;
+
+        //@SuppressLint("SdCardPath") String pathApp = "/data/user/0/com.example.calendar/files/";
+        //Log.d("myLog", "path : " + pathICS);
+        // *******************
+        String fileName = filesUtil.getFileName();
+        String pathICS = getPathDownload() + fileName;
+        String pathApp = filesUtil.getPathInternalApp();
+        String pathAppData = filesUtil.getPathFileCourseData();
+
+        Log.d("myLogA", pathICS + " | " + fileName + " | " + pathApp + " | " + pathAppData);
 
         /*
         //check if file can be read
@@ -415,7 +425,7 @@ public class Routine {
         */
 
         //read file
-        Log.d("myLogA", "analyzer");
+        Log.d("myLogA", "Analyzer - Start");
         List<String> ListTest = new ArrayList<>();
 
         int lineFirstLesson = lineFirstCourses(pathICS);
@@ -473,7 +483,7 @@ public class Routine {
         String header = "Day|Start|End|Duration|Classroom|Type|Name lesson|Name short|Teachers\n";
         try {
             //FileWriter myWriter = new FileWriter(path + "/data.csv");
-            FileWriter myWriter = new FileWriter(pathApp + "data.csv");
+            FileWriter myWriter = new FileWriter(pathAppData);
 
             myWriter.write(header);
             for (String lesson : ListTest) {
@@ -486,12 +496,9 @@ public class Routine {
             e.printStackTrace();
         }
 
-        Log.d("myLogA", "End final");
         //formatting each course (delete duplication, ...)
 
-
         //formattingFile(pathApp);
-
         /*
         //declarations
         List<String> list = new ArrayList<>();
@@ -537,20 +544,23 @@ public class Routine {
         for (int i = 0; i < list.size(); i++){
             Log.d("myLogA", i + " | " + list.get(i));
         }
-
-
          */
+        moveFile(pathICS + "/" + fileName, pathApp + "/" + fileName);
+        snackbar.dismiss();
+        Log.d("myLogA", "Analyzer - End");
+        return true;
+    }
 
-        //move file
-        File sourceLocation = new File(pathICS);
-        File targetLocation = new File(pathApp + file_name);
-        Log.d("myLogA", sourceLocation + " | " + targetLocation);
+    private static void moveFile(String pathSource, String pathTarget){
+        File sourceLocation = new File(pathSource);
+        File targetLocation = new File(pathTarget);
+        Log.d("myLogAF", sourceLocation + " | " + targetLocation);
 
         try {
             if (sourceLocation.renameTo(targetLocation)) {
-                Log.d("myLogA", "Move file successful.");
+                Log.d("myLogAF", "Move file successful.");
             } else {
-                Log.d("myLogA", "Move file failed.");
+                Log.d("myLogAF", "Move file failed.");
                 if (sourceLocation.exists()) {
                     InputStream in = new FileInputStream(sourceLocation);
                     OutputStream out = new FileOutputStream(targetLocation);
@@ -562,17 +572,14 @@ public class Routine {
                     }
                     in.close();
                     out.close();
-                    Log.d("myLogA", "Copy file successful.");
+                    Log.d("myLogAF", "Copy file successful.");
                 } else {
-                    Log.d("myLogA", "Copy file failed. Source file missing.");
+                    Log.d("myLogAF", "Copy file failed. Source file missing.");
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        snackbar.dismiss();
-        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

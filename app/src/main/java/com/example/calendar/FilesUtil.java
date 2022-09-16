@@ -3,6 +3,7 @@ package com.example.calendar;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -29,6 +30,84 @@ import java.util.regex.Pattern;
 
 public class FilesUtil {
 
+    private static final String pathDownload = Environment.getExternalStorageDirectory().toString() + "/Download/";
+    private static final String dirISENCalendar = "ISENCalendars/";
+    private static final String fileNameSaveData = "stat5.txt";
+    private static final String fileCourseData = "data.csv";
+
+    Context context;
+    String firstName, lastName, dateFile;
+
+    FilesUtil(String firstName, String lastName, String dateFile, Context context){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateFile = dateFile;
+        this.context = context;
+    }
+
+    FilesUtil(String dateFile, Context context){
+        this.dateFile = dateFile;
+        this.context = context;
+    }
+
+    public String getDateFile(){
+        return dateFile;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
+    public static String getPathDownload(){
+        return pathDownload + dirISENCalendar;
+    }
+
+    public String getPathDownloadedFile(){
+        return getPathDownload() + getFileName();
+    }
+
+    /** -1 -2 ... not used**/
+    public String getFileName(){
+        return firstName + "." + lastName + "_" + dateFile + ".ics";
+    }
+
+    public String getPathInternalApp(){
+        //"/data/user/0/com.example.calendar/files/"
+        return String.valueOf(context.getFilesDir());
+    }
+
+    public String getPathFileCourseData(){
+        return getPathInternalApp() + "/" + getFileNameCourseData();
+    }
+
+    public String getPathFileSaveData(){
+        return getPathInternalApp() + "/" + getFileNameSaveData();
+    }
+
+    public static String getDirISENCalendar(){
+        return dirISENCalendar;
+    }
+
+    public static String getFileNameSaveData(){
+        return fileNameSaveData;
+    }
+
+    public static String getFileNameCourseData(){
+        return fileCourseData;
+    }
+
     static boolean researchFile(String path, String research){
         File directory = new File(path);
         File[] files = directory.listFiles();
@@ -43,6 +122,7 @@ public class FilesUtil {
         }
         return false;
     }
+
 
     static boolean showFile(String path, boolean show){
         Log.d("myLog", "Path : " + path);
@@ -130,8 +210,7 @@ public class FilesUtil {
     static public boolean deleteFile(String path, String file_name){
         File fileToDelete = new File(path, file_name);
         Log.d("myLogD", fileToDelete.toString());
-        boolean deleted = fileToDelete.delete();
-        return deleted;
+        return fileToDelete.delete();
     }
 
     /*
@@ -204,7 +283,7 @@ public class FilesUtil {
     */
 
     static public String[] readNames(String file_name, Context context){
-        List<String> itemList = new ArrayList<String>();
+        List<String> itemList = new ArrayList<>();
         Scanner scanner = null;
         try {
             scanner = new Scanner(new File(context.getFilesDir() + "/" + file_name));
@@ -246,7 +325,7 @@ public class FilesUtil {
                     Log.d("myLog", String.valueOf(stringBuilder));
                     return String.valueOf(stringBuilder);
                 }catch (IOException e){
-                    Log.d("myLog", "read : error occurred:" + e.toString());
+                    Log.d("myLog", "read : error occurred:" + e);
                 }
             } catch (IOException e) {
                 Log.d("myLog", "read : error occurred");
