@@ -94,16 +94,13 @@ public class Downloader {
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void onReceive(Context context, Intent intent) {
             Log.d("myLogD", "Download finish on complete");
-            //File file = new File(path);
             File file = new File(filesUtil.getPathDownloadedFile());
             Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
-            if (file.canRead()) {
-                //success
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, filesUtil);
-            } else {
-                //error
-                Log.d("myLog", "Error");
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 20, filesUtil);
+            if (file.canRead()) {   //success
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil);
+            } else {                //error
+                Log.d("myLogTr", "Error");
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, false, filesUtil);
             }
         }
     };
@@ -121,22 +118,17 @@ public class Downloader {
                 Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
                 //if (file.canRead()) break;
                 Log.d("myLogTr", "End thread");
-                if (file.canRead()) {
-                    //success
+                if (file.canRead()) {   //success
                     String[] names = {filesUtil.getFirstName(), filesUtil.getLastName()};
                     if (saveNames(getFileNameSaveData(), names, context)) {
-                        Log.d("myLog", "dismiss");
-                        //dialog.dismiss();   //close popup
                         popupWelcome.closePopup();
-                        //executeRoutine(20);
-                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, 19, filesUtil);
+                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil);
                     } else {
-                        Log.d("myLog", "error sys");
+                        Log.d("myLogTr", "error sys");
                         //contact moderator
                     }
-                } else {
-                    //error
-                    Log.d("myLog", "Error");
+                } else {    //error
+                    Log.d("myLogTr", "Error");
                     popupWelcome.errorPopup(context);
                 }
                 Log.d("myLogTr", "End of run()");   //terminated

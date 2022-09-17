@@ -14,7 +14,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -343,4 +345,51 @@ public class FilesUtil {
         }
         return null;
     }
+
+            /*
+        //check if file can be read
+        boolean exit = false;
+        File file = new File(pathICS);
+        while (!exit) {
+            if (file.canRead()) {
+                exit = true;
+            } else {
+                Log.d("myLog", "Error, path is break");
+                Log.d("myLog", " - Exist : " + file.exists());
+                Log.d("myLog", " - Can read     : " + file.canRead());
+            }
+        }
+        */
+
+    public static void moveFile(String pathSource, String pathTarget){
+        File sourceLocation = new File(pathSource);
+        File targetLocation = new File(pathTarget);
+        Log.d("myLogAF", sourceLocation + " | " + targetLocation);
+
+        try {
+            if (sourceLocation.renameTo(targetLocation)) {
+                Log.d("myLogAF", "Move file successful.");
+            } else {
+                Log.d("myLogAF", "Move file failed.");
+                if (sourceLocation.exists()) {
+                    InputStream in = new FileInputStream(sourceLocation);
+                    OutputStream out = new FileOutputStream(targetLocation);
+                    // Copy the bits from instream to outstream
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                    in.close();
+                    out.close();
+                    Log.d("myLogAF", "Copy file successful.");
+                } else {
+                    Log.d("myLogAF", "Copy file failed. Source file missing.");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

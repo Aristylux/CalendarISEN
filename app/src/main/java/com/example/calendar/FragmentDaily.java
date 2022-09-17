@@ -42,8 +42,10 @@ public class FragmentDaily extends Fragment {
             String firstName = data.getString("firstname");
             String lastName = data.getString("lastname");
 
+            //retrieve and form data
             listLessons = Routine.routineTest(date, dateFile, firstName, lastName);     //Routine
 
+            //populate
             if (listLessons != null) {
                 myObjAdapter = new AdapterLesson(getContext(), listLessons);
                 mRecyclerView = view.findViewById(R.id.mRecyclerView);

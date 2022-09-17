@@ -17,7 +17,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
 import java.util.Arrays;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -39,11 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_FOR_PERMISSION = 1;
 
     TextView day,month;
-
     FilesUtil filesUtil;
-
-    String dateFile;        // -> [OPTI] in filesUtil
-
     CountClass count;
 
     private static final boolean DAILY = true;
@@ -70,12 +64,12 @@ public class MainActivity extends AppCompatActivity {
         day.setText(today.getDay());
         month.setText(today.getDateMonth());
 
-        dateFile = today.getSimpleDate();
-        Log.d("myLog", "Today : " + dateFile);
+        //dateFile = today.getSimpleDate();
+        Log.d("myLog", "Today : " + today.getSimpleDate());
 
         checkPermission();              //Check authorizations
         loadSharedPreferences();        //Load preference (dark mode,..)
-        filesUtil = new FilesUtil(dateFile, this);
+        filesUtil = new FilesUtil(today.getSimpleDate(), this);
         getNameGuest();                 //Get firstName and lastName
         //get network (just inform)
         getSchedule();                  //Download schedule
@@ -86,11 +80,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
         //set first fragment
-        Fragment fragment = new FragmentDaily();
-        sendData(fragment, dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());    //send data
-        //show fragment
-        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        //if file can be read ->
+        sendData(new FragmentDaily(), filesUtil.getDateFile(), filesUtil);    //send data
 
         //Buttons Next and Before
         Button buttonNext = findViewById(R.id.button_next);
@@ -136,15 +129,15 @@ public class MainActivity extends AppCompatActivity {
             Log.d("myLogN", "button Before mode daily");
             selectedFragment = new FragmentDaily();
             count.countDay(type, 1); //new day
-            nextDate = CalculateUtil.calculateDate(dateFile, count.getCountDay());
+            nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountDay());
         } else {
             Log.d("myLogN", "button Before clicked mode weekly");
             selectedFragment = new FragmentWeekly();
             count.countWeek(type, 7);
-            nextDate = CalculateUtil.calculateDate(dateFile, count.getCountWeek());
+            nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountWeek());
         }
         String verifiedDate = verificationDate(nextDate, type);
-        sendData(selectedFragment, verifiedDate, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());    //send data
+        sendData(selectedFragment, verifiedDate, filesUtil);    //send data
         updateDate(verifiedDate);
     }
 
@@ -161,11 +154,11 @@ public class MainActivity extends AppCompatActivity {
         if (nextDayOfTheWeek == 6) {    //+2 -> SATURDAY to MONDAY
             count.countWeek(type, 2, 1);
             count.countDay(type, 2, 1);
-            dateVerified = CalculateUtil.calculateDate(dateFile, count.getCountDay());
+            dateVerified = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountDay());
         } else if (nextDayOfTheWeek == 7) {      //+1 -> SUNDAY to MONDAY
             count.countWeek(type, 1, 2);
             count.countDay(type, 1, 2);
-            dateVerified = CalculateUtil.calculateDate(dateFile, count.getCountDay());
+            dateVerified = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountDay());
         }
         return dateVerified;
     }
@@ -175,16 +168,16 @@ public class MainActivity extends AppCompatActivity {
      * send data to a new fragment
      * and open the fragment
      */
-    private void sendData(Fragment fragment, String dataDateDay, String dataDateFile, String dataFirstName, String dataLastName ) {
+    private void sendData(Fragment fragment, String dataDateDay, FilesUtil filesUtil) {
         Bundle data = new Bundle();
-        FragmentTransaction fragmentTransactionT = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         data.putString("day", dataDateDay);
-        data.putString("dateFile", dataDateFile);
-        data.putString("firstname", dataFirstName);
-        data.putString("lastname", dataLastName);
+        data.putString("dateFile", filesUtil.getDateFile());
+        data.putString("firstname", filesUtil.getFirstName());
+        data.putString("lastname", filesUtil.getLastName());
         fragment.setArguments(data);
-        fragmentTransactionT.replace(R.id.fragment_container, fragment);
-        fragmentTransactionT.commit();
+        fragmentTransaction.replace(R.id.fragment_container, fragment);
+        fragmentTransaction.commit();
     }
 
     /**
@@ -227,18 +220,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                sendData(new FragmentWeekly(), dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());
+                sendData(new FragmentWeekly(), filesUtil.getDateFile(), filesUtil);
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
-                count.avoidWeekend(dateFile);
-                updateDate(dateFile);
+                count.avoidWeekend(filesUtil.getDateFile());
+                updateDate(filesUtil.getDateFile());
                 break;
             case R.id.home_daily:
                 Log.d("myLogN", "Daily");
                 MODE = DAILY;
                 stateTypeView.setText(R.string.home_page_title_daily);
-                sendData(new FragmentDaily(), dateFile, dateFile, filesUtil.getFirstName(), filesUtil.getLastName());
+                sendData(new FragmentDaily(), filesUtil.getDateFile(), filesUtil);
                 count.setCountDay(0);
-                updateDate(dateFile);
+                updateDate(filesUtil.getDateFile());
                 break;
             case R.id.home_settings:
                 Log.d("myLogN", "Settings");
@@ -327,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
      * download schedule
      */
     void getSchedule(){
-        if(researchFile(getPathDownload(), dateFile)){
+        if(researchFile(getPathDownload(), filesUtil.getDateFile())){
             Log.d("myLog", "File already exist");
             //no download
             /* ---> get if the length is the same or not */

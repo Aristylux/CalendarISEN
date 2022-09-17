@@ -3,6 +3,7 @@ package com.example.calendar;
 import static com.example.calendar.ExtractInformation.*;
 import static com.example.calendar.ExtractInformation.formatConcatenateLessonName;
 import static com.example.calendar.FilesUtil.getPathDownload;
+import static com.example.calendar.FilesUtil.moveFile;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -232,6 +233,11 @@ public class Routine {
     }
     */
 
+    /**
+     * routineTest
+     *
+     * return: List of course of the date
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Course> routineTest(String date, String dateFile, String firstName, String lastName) {
         Log.d("myLogT", "Routine Test");
@@ -343,41 +349,41 @@ public class Routine {
         return listLessons;
     }
 
-
+    /**
+     * executeRoutineTest:
+     * Routine after download
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    static void executeRoutineTest(View view, Context context, int count, FilesUtil filesUtil) {
+    static void executeRoutineTest(View view, Context context, boolean isSuccess, FilesUtil filesUtil) {
         Log.d("myLog", "routine test");
-
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Runnable runnable = new Runnable() {
-            @SuppressLint("InflateParams")
-            @Override
-            public void run() {
-                View snackMessage;
-                if (count < 20) {
-                    //success
-                    //View custom = layoutInflater.inflate(R.layout.snackbar_custom, null);
-                    Routine.analyzer(view.findViewById(R.id.main), context, layoutInflater, filesUtil);
-                    //Routine.analyzer(view.findViewById(R.id.main), layoutInflater, firstName, lastName, dateFile);
-                    snackMessage = layoutInflater.inflate(R.layout.snackbar_success, null);
-                } else {
-                    //error
-                    snackMessage = layoutInflater.inflate(R.layout.snackbar_failure, null);
-                }
-                Snackbar snackbar = Snackbar.make(view.findViewById(R.id.cl), "Updated.", Snackbar.LENGTH_SHORT);
-                snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
-                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                Snackbar.SnackbarLayout snackBarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
-                snackBarLayout.setPadding(0, 0, 0, 0);
-                snackBarLayout.addView(snackMessage, 0);
-                snackbar.show();
+        @SuppressLint("InflateParams") Runnable runnable = () -> {
+            View snackMessage;
+            if (isSuccess) {    //success
+                Routine.analyzer(view.findViewById(R.id.main), context, layoutInflater, filesUtil);
+                snackMessage = layoutInflater.inflate(R.layout.snackbar_success, null);
+            } else {            //error
+                snackMessage = layoutInflater.inflate(R.layout.snackbar_failure, null);
             }
+            Snackbar snackbar = Snackbar.make(view.findViewById(R.id.cl), "Updated.", Snackbar.LENGTH_SHORT);
+            snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+            snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            Snackbar.SnackbarLayout snackBarLayout = (Snackbar.SnackbarLayout) snackbar.getView();
+            snackBarLayout.setPadding(0, 0, 0, 0);
+            snackBarLayout.addView(snackMessage, 0);
+            snackbar.show();
         };
         Thread thread = new Thread(runnable);
         thread.start();
     }
 
-
+    /**
+     * analyzer:
+     *
+     * analyse the downloaded file
+     *
+     * create data.csv
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static boolean analyzer(View view, Context context, LayoutInflater layoutInflater, FilesUtil filesUtil) {
         CoordinatorLayout coordinatorLayout = view.findViewById(R.id.cl);
@@ -391,38 +397,11 @@ public class Routine {
         snackBarLayout.addView(custom, 0);
         snackbar.show();
 
-        // ***********
-        //String path = Environment.getExternalStorageDirectory().toString() + "/Download" + "/" + firstName + "." + lastName + "_" + dateFile + ".ics";
-        //String path = Environment.getExternalStorageDirectory().toString() + "/Download";
-        //String file_name = firstName + "." + lastName + "_" + dateFile + ".ics";
-        //String pathICS = path + "/ISENCalendars/" + file_name;
-
-        //String pathICS = context.getFilesDir() + "/" + file_name;
-
-        //@SuppressLint("SdCardPath") String pathApp = "/data/user/0/com.example.calendar/files/";
-        //Log.d("myLog", "path : " + pathICS);
-        // *******************
         String fileName = filesUtil.getFileName();
         String pathICS = getPathDownload() + fileName;
         String pathApp = filesUtil.getPathInternalApp();
         String pathAppData = filesUtil.getPathFileCourseData();
-
         Log.d("myLogA", pathICS + " | " + fileName + " | " + pathApp + " | " + pathAppData);
-
-        /*
-        //check if file can be read
-        boolean exit = false;
-        File file = new File(pathICS);
-        while (!exit) {
-            if (file.canRead()) {
-                exit = true;
-            } else {
-                Log.d("myLog", "Error, path is break");
-                Log.d("myLog", " - Exist : " + file.exists());
-                Log.d("myLog", " - Can read     : " + file.canRead());
-            }
-        }
-        */
 
         //read file
         Log.d("myLogA", "Analyzer - Start");
@@ -551,37 +530,6 @@ public class Routine {
         return true;
     }
 
-    private static void moveFile(String pathSource, String pathTarget){
-        File sourceLocation = new File(pathSource);
-        File targetLocation = new File(pathTarget);
-        Log.d("myLogAF", sourceLocation + " | " + targetLocation);
-
-        try {
-            if (sourceLocation.renameTo(targetLocation)) {
-                Log.d("myLogAF", "Move file successful.");
-            } else {
-                Log.d("myLogAF", "Move file failed.");
-                if (sourceLocation.exists()) {
-                    InputStream in = new FileInputStream(sourceLocation);
-                    OutputStream out = new FileOutputStream(targetLocation);
-                    // Copy the bits from instream to outstream
-                    byte[] buf = new byte[1024];
-                    int len;
-                    while ((len = in.read(buf)) > 0) {
-                        out.write(buf, 0, len);
-                    }
-                    in.close();
-                    out.close();
-                    Log.d("myLogAF", "Copy file successful.");
-                } else {
-                    Log.d("myLogAF", "Copy file failed. Source file missing.");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private static void formattingFile(String path) {
 
@@ -657,9 +605,6 @@ public class Routine {
         listLessonName.add(splitLine1[6]);
         listLessonName.add(splitLine2[6]);
         String concatLesson = formatConcatenateLessonName(listLessonName);
-        String finalLine = splitLine1[0] + "|" + splitLine1[1] + "|" + splitLine1[2] + "|" + splitLine1[3] + "|" + concatClass + "|" + splitLine1[5] + "|" + concatLesson + "|" + splitLine1[7] + "|" + formatTeacher(splitLine1[8]);
-
-        return finalLine;
+        return splitLine1[0] + "|" + splitLine1[1] + "|" + splitLine1[2] + "|" + splitLine1[3] + "|" + concatClass + "|" + splitLine1[5] + "|" + concatLesson + "|" + splitLine1[7] + "|" + formatTeacher(splitLine1[8]);
     }
-
 }
