@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -355,7 +356,7 @@ public class Routine {
      * Routine after download
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    static void executeRoutineTest(View view, Context context, boolean isSuccess, FilesUtil filesUtil) {
+    static void executeRoutineTest(View view, Context context, boolean isSuccess, FilesUtil filesUtil, Handler handler) {
         Log.d("myLog", "routine test");
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams") Runnable runnable = () -> {
@@ -373,6 +374,7 @@ public class Routine {
             snackBarLayout.setPadding(0, 0, 0, 0);
             snackBarLayout.addView(snackMessage, 0);
             snackbar.show();
+            handler.obtainMessage(1).sendToTarget();    //inform analyse ended for update fragment
         };
         Thread thread = new Thread(runnable);
         thread.start();

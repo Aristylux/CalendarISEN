@@ -2,6 +2,7 @@ package com.example.calendar;
 
 import static com.example.calendar.FilesUtil.*;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -17,6 +18,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,8 +29,6 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.Arrays;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class MainActivity extends AppCompatActivity {
@@ -70,21 +71,20 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();              //Check authorizations
         loadSharedPreferences();        //Load preference (dark mode,..)
         filesUtil = new FilesUtil(today.getSimpleDate(), this);
-        getNameGuest();                 //Get firstName and lastName
-        //get network (just inform)
-        getSchedule();                  //Download schedule
 
+        if(getNameGuest()) {                 //Get firstName and lastName
+            //get network (just inform)
+            getSchedule();                  //Download schedule
+            //set first fragment
+            //if file can be read ->
+            sendData(new FragmentDaily(filesUtil));    //send data
+        }
         count = new CountClass(NEXT, BEFORE);
 
         //set menu navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
         bottomNavigationView.getMenu().getItem(1).setChecked(true);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
-        //set first fragment
-        //if file can be read ->
-        sendData(new FragmentDaily(filesUtil));    //send data
-
 
         //Buttons Next and Before
         Button buttonNext = findViewById(R.id.button_next);
@@ -142,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
         sendData(selectedFragment);    //send data
         updateDate(verifiedDate);
     }
+
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message message) {
+            switch (message.what){
+                case 1:
+                    sendData(new FragmentDaily(filesUtil));
+                    break;
+            }
+            return true;
+        }
+    });
 
     /**
      * verificationDate:
@@ -249,16 +261,17 @@ public class MainActivity extends AppCompatActivity {
      * if directory is not exist
      * we do not need to ask names
      */
-    public void getNameGuest(){
-        String[] Names = readNames(getFileNameSaveData(), this);
-        Log.d("myLog", Arrays.toString(Names));
+    public boolean getNameGuest(){
+        String[] Names = readNames(this);
         if ((Names.length) != 0){
             filesUtil.setFirstName(Names[0]);
             filesUtil.setLastName(Names[1]);
             Log.d("myLog", "Names exist: " + filesUtil.getFirstName() + " | " + filesUtil.getLastName());
+            return true;
         } else {
             Log.d("myLog", "First time");
             PopupWelcome();
+            return false;
         }
     }
 
@@ -276,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
         textInputEditTextLastName = menuPopupView.findViewById(R.id.textInputEditTextUserLastName);
         textInputEditTextFirstName = menuPopupView.findViewById(R.id.textInputEditTextUserFirstName);
 
-        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil);
+        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil, handler);
 
         validateButton.setOnClickListener(view -> {
             String[] names = popupWelcome.buttonActivated();
@@ -327,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 //downloader.Downloading(this, false);
             }
         }
-        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil);
+        Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil, handler);
         downloader.Downloading(false);
     }
 }

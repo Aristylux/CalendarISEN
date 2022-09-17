@@ -1,6 +1,5 @@
 package com.example.calendar;
 
-
 import static com.example.calendar.FilesUtil.readNames;
 
 import android.annotation.SuppressLint;
@@ -16,15 +15,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 
 public class FragmentSettings extends Fragment implements View.OnClickListener {
-
-    String file_name_save = "stat5.txt";
-    String file_name_data = "data.csv";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +45,7 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
 
 
 
-        String[] Names = readNames(file_name_save, view.getContext());
+        String[] Names = readNames(view.getContext());
         if ((Names.length) != 0){
             String format_firstname = Names[0].substring(0, 1).toUpperCase() + Names[0].substring(1);
             String format_lastname = Names[1].substring(0, 1).toUpperCase() + Names[1].substring(1);
@@ -161,8 +154,8 @@ public class FragmentSettings extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
                 Log.d("myLog", "confirm");
                 //delete
-                FilesUtil.deleteFile(String.valueOf(getActivity().getFilesDir()),file_name_save);
-                FilesUtil.deleteFile(String.valueOf(getActivity().getFilesDir()),file_name_data);
+                FilesUtil.deleteFile(String.valueOf(getActivity().getFilesDir()),FilesUtil.fileNameSaveData);
+                FilesUtil.deleteFile(String.valueOf(getActivity().getFilesDir()),FilesUtil.fileCourseData);
                 dialog.dismiss();   //close popup
                 OpenPopupConfirmation();
             }

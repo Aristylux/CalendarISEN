@@ -34,8 +34,8 @@ public class FilesUtil {
 
     private static final String pathDownload = Environment.getExternalStorageDirectory().toString() + "/Download/";
     private static final String dirISENCalendar = "ISENCalendars/";
-    private static final String fileNameSaveData = "stat5.txt";
-    private static final String fileCourseData = "data.csv";
+    public static final String fileNameSaveData = "stat5.txt";
+    public static final String fileCourseData = "data.csv";
 
     Context context;
     String firstName, lastName, dateFile;
@@ -92,6 +92,10 @@ public class FilesUtil {
 
     public String getPathFileCourseData(){
         return getPathInternalApp() + "/" + getFileNameCourseData();
+    }
+
+    public static String getPathFileSaveData(Context context){
+        return context.getFilesDir() + "/" + getFileNameSaveData();
     }
 
     public String getPathFileSaveData(){
@@ -284,13 +288,13 @@ public class FilesUtil {
     }
     */
 
-    static public String[] readNames(String file_name, Context context){
+    static public String[] readNames(Context context){
         List<String> itemList = new ArrayList<>();
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new File(context.getFilesDir() + "/" + file_name));
+            scanner = new Scanner(new File(getPathFileSaveData(context)));
         } catch (FileNotFoundException e) {
-            Log.d("myLog", "An error occurred : " + e);
+            Log.d("myLog", "An error occurred : " + e);     //file doesn't exist
         }
         if (scanner != null) {
             while (scanner.hasNextLine()) {

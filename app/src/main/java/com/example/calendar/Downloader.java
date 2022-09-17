@@ -30,13 +30,15 @@ public class Downloader {
     String dateFile, url;
     View theView;
     FilesUtil filesUtil;
+    Handler handler;
 
-    Downloader(Context Context, PopupWelcome PopupWelcome, View view, FilesUtil filesUtil) {
+    Downloader(Context Context, PopupWelcome PopupWelcome, View view, FilesUtil filesUtil, Handler handler) {
         context = Context;
         popupWelcome = PopupWelcome;
         theView = view;
         this.dateFile = filesUtil.getDateFile();
         this.filesUtil = filesUtil;
+        this.handler = handler;
     }
 
     void Downloading(boolean firstTime) {
@@ -97,10 +99,10 @@ public class Downloader {
             File file = new File(filesUtil.getPathDownloadedFile());
             Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
             if (file.canRead()) {   //success
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil);
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil, handler);
             } else {                //error
                 Log.d("myLogTr", "Error");
-                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, false, filesUtil);
+                Routine.executeRoutineTest(theView.findViewById(R.id.main), context, false, filesUtil, handler);
             }
         }
     };
@@ -122,7 +124,7 @@ public class Downloader {
                     String[] names = {filesUtil.getFirstName(), filesUtil.getLastName()};
                     if (saveNames(getFileNameSaveData(), names, context)) {
                         popupWelcome.closePopup();
-                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil);
+                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil, handler);
                     } else {
                         Log.d("myLogTr", "error sys");
                         //contact moderator
