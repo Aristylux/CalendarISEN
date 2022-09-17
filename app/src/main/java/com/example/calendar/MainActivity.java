@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static final boolean NEXT = true;
     private static final boolean BEFORE = false;
 
+    BottomNavigationView bottomNavigationView;
     TextInputEditText textInputEditTextLastName;
     TextInputEditText textInputEditTextFirstName;
     View validateButton;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("myLog", "Start");
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);     //crash when restart ()
         setContentView(R.layout.activity_main);
         // ------ date ----
         day = findViewById(R.id.day);
@@ -72,19 +73,18 @@ public class MainActivity extends AppCompatActivity {
         loadSharedPreferences();        //Load preference (dark mode,..)
         filesUtil = new FilesUtil(today.getSimpleDate(), this);
 
+        //set menu navigation bar
+        bottomNavigationView = findViewById(R.id.navigation_bar);
+        setBottomNavigation();
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
         if(getNameGuest()) {                 //Get firstName and lastName
             //get network (just inform)
             getSchedule();                  //Download schedule
             //set first fragment
-            //if file can be read ->
             sendData(new FragmentDaily(filesUtil));    //send data
         }
         count = new CountClass(NEXT, BEFORE);
-
-        //set menu navigation bar
-        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
-        bottomNavigationView.getMenu().getItem(1).setChecked(true);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
         //Buttons Next and Before
         Button buttonNext = findViewById(R.id.button_next);
@@ -110,13 +110,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.d("myLog", "Restart");
-        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
-        bottomNavigationView.getMenu().getItem(2).setChecked(false);
-        if (MODE == WEEKLY){
-            bottomNavigationView.getMenu().getItem(0).setChecked(true);
-        } else {
-            bottomNavigationView.getMenu().getItem(1).setChecked(true);
-        }
+        setBottomNavigation();
+    }
+
+    private void setBottomNavigation(){
+        final int WEEKLY_POS = 0;
+        final int DAILY_POS = 1;
+        final int SETTING_POS = 2;
+        bottomNavigationView.getMenu().getItem(SETTING_POS).setChecked(false);
+        if (MODE == WEEKLY)
+            bottomNavigationView.getMenu().getItem(WEEKLY_POS).setChecked(true);
+        else
+            bottomNavigationView.getMenu().getItem(DAILY_POS).setChecked(true);
     }
 
     /**
@@ -228,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                sendData(new FragmentWeekly(filesUtil, verificationDate(filesUtil.getDateFile(), NEXT)));
+                sendData(new FragmentWeekly(filesUtil));
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
                 count.avoidWeekend(filesUtil.getDateFile());
                 updateDate(filesUtil.getDateFile());
@@ -251,6 +256,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     };
 
+    /**
+     * updateDate:
+     * update banner date
+     */
     private void updateDate(String date) {
         DateClass newDate = new DateClass(date);
         day.setText(newDate.getDay());
