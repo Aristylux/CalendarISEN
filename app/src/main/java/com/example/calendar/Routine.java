@@ -239,10 +239,11 @@ public class Routine {
      * return: List of course of the date
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static List<Course> routineTest(String date, String dateFile, String firstName, String lastName) {
+    public static List<Course> routineTest(String date, FilesUtil filesUtil) {
         Log.d("myLogT", "Routine Test");
         //String path = Environment.getExternalStorageDirectory().toString() + "/Download" + "/data.csv";
-        @SuppressLint("SdCardPath") String path = "/data/user/0/com.example.calendar/files/data.csv";
+        //@SuppressLint("SdCardPath") String path = "/data/user/0/com.example.calendar/files/data.csv";
+        String path = filesUtil.getPathFileCourseData();
 
         List<Course> listLessons = new ArrayList<>();
 

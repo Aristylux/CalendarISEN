@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-//import android.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,35 +21,33 @@ import java.util.List;
 
 public class FragmentDaily extends Fragment {
 
-    RecyclerView mRecyclerView;
-    List<Course> listLessons = new ArrayList<>();
-    AdapterLesson myObjAdapter;
+    FilesUtil filesUtil;
+    String date;
 
-    public FragmentDaily(){}
+    public FragmentDaily(FilesUtil filesUtil, String date){
+        this.filesUtil = filesUtil;
+        this.date = date;
+    }
+
+    public FragmentDaily(FilesUtil filesUtil){
+        this.filesUtil = filesUtil;
+        this.date = filesUtil.getDateFile();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_daily, container, false);
 
-        //get argument
-        Bundle data = getArguments();
-        if (data != null) {
-            String date = data.getString("day");
-            String dateFile = data.getString("dateFile");
-            String firstName = data.getString("firstname");
-            String lastName = data.getString("lastname");
+        //retrieve and form data
+        List<Course> listLessons = Routine.routineTest(date, filesUtil);     //Routine
 
-            //retrieve and form data
-            listLessons = Routine.routineTest(date, dateFile, firstName, lastName);     //Routine
-
-            //populate
-            if (listLessons != null) {
-                myObjAdapter = new AdapterLesson(getContext(), listLessons);
-                mRecyclerView = view.findViewById(R.id.mRecyclerView);
-                mRecyclerView.setAdapter(myObjAdapter);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            }
+        //populate
+        if (listLessons != null) {
+            AdapterLesson myObjAdapter = new AdapterLesson(getContext(), listLessons);
+            RecyclerView recyclerView = view.findViewById(R.id.mRecyclerView);
+            recyclerView.setAdapter(myObjAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
         return view;
     }

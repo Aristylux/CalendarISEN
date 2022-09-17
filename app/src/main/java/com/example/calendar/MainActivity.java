@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
         //set first fragment
         //if file can be read ->
-        sendData(new FragmentDaily(), filesUtil.getDateFile(), filesUtil);    //send data
+        sendData(new FragmentDaily(filesUtil));    //send data
+
 
         //Buttons Next and Before
         Button buttonNext = findViewById(R.id.button_next);
@@ -124,20 +125,21 @@ public class MainActivity extends AppCompatActivity {
      */
     private void changeButton(boolean type){
         Fragment selectedFragment;
-        String nextDate;
+        String nextDate, verifiedDate;
         if (MODE == DAILY) {
             Log.d("myLogN", "button Before mode daily");
-            selectedFragment = new FragmentDaily();
             count.countDay(type, 1); //new day
             nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountDay());
+            verifiedDate = verificationDate(nextDate, type);
+            selectedFragment = new FragmentDaily(filesUtil, verifiedDate);
         } else {
             Log.d("myLogN", "button Before clicked mode weekly");
-            selectedFragment = new FragmentWeekly();
             count.countWeek(type, 7);
             nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountWeek());
+            verifiedDate = verificationDate(nextDate, type);
+            selectedFragment = new FragmentWeekly(filesUtil, verifiedDate);
         }
-        String verifiedDate = verificationDate(nextDate, type);
-        sendData(selectedFragment, verifiedDate, filesUtil);    //send data
+        sendData(selectedFragment);    //send data
         updateDate(verifiedDate);
     }
 
@@ -168,14 +170,8 @@ public class MainActivity extends AppCompatActivity {
      * send data to a new fragment
      * and open the fragment
      */
-    private void sendData(Fragment fragment, String dataDateDay, FilesUtil filesUtil) {
-        Bundle data = new Bundle();
+    private void sendData(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        data.putString("day", dataDateDay);
-        data.putString("dateFile", filesUtil.getDateFile());
-        data.putString("firstname", filesUtil.getFirstName());
-        data.putString("lastname", filesUtil.getLastName());
-        fragment.setArguments(data);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
     }
@@ -220,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                sendData(new FragmentWeekly(), filesUtil.getDateFile(), filesUtil);
+                sendData(new FragmentWeekly(filesUtil, verificationDate(filesUtil.getDateFile(), NEXT)));
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
                 count.avoidWeekend(filesUtil.getDateFile());
                 updateDate(filesUtil.getDateFile());
@@ -229,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Daily");
                 MODE = DAILY;
                 stateTypeView.setText(R.string.home_page_title_daily);
-                sendData(new FragmentDaily(), filesUtil.getDateFile(), filesUtil);
+                sendData(new FragmentDaily(filesUtil));
                 count.setCountDay(0);
                 updateDate(filesUtil.getDateFile());
                 break;
