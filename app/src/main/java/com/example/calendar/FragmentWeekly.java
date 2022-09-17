@@ -3,7 +3,6 @@ package com.example.calendar;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-//import android.app.Fragment;
 
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -19,12 +18,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Objects;
-
 
 public class FragmentWeekly extends Fragment {
 
-    public FragmentWeekly(){}
+    FilesUtil filesUtil;
+    String date;
+    final private static int day = 1;
+
+    public FragmentWeekly(FilesUtil filesUtil){
+        this.filesUtil = filesUtil;
+        this.date = filesUtil.getDateFile();
+    }
+
+    public FragmentWeekly(FilesUtil filesUtil, String date){
+        this.filesUtil = filesUtil;
+        this.date = date;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
@@ -33,48 +42,27 @@ public class FragmentWeekly extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weekly, container, false);
         Log.d("myLogN", "Weekly view");
 
-        Bundle data = getArguments();
-        if (data != null) {
-            String date = data.getString("day");
-            String dateFile = data.getString("dateFile");
-            String firstName = data.getString("firstname");
-            String lastName = data.getString("lastname");
-            //FragmentDaily fragmentDailyMonday = new FragmentDaily();
+        //for start to Monday
+        date = firstDay(date, view);
+        String nbrDay = CalculateUtil.extractNbrDay(date);
+        addView(view, R.id.RecyclerViewMonday, R.id.text_monday_day, date, nbrDay);
 
-            //convert date to int
+        date = CalculateUtil.calculateDate(date, day);
+        nbrDay = CalculateUtil.extractNbrDay(date);
+        addView(view, R.id.RecyclerViewTuesday, R.id.text_tuesday_day, date, nbrDay);
 
+        date = CalculateUtil.calculateDate(date, day);
+        nbrDay = CalculateUtil.extractNbrDay(date);
+        addView(view, R.id.RecyclerViewWednesday, R.id.text_wednesday_day, date, nbrDay);
 
-            //verification day number of the date
-            //for start to Monday
-            date = firstDay(date, view);
-            String nbrDay = CalculateUtil.extractNbrDay(date);
-            addView(view, R.id.RecyclerViewMonday, R.id.text_monday_day, date, dateFile, firstName, lastName, nbrDay);
-            //date +1
-            int day = 1;
-            //date = nextDay(date);
-            date = CalculateUtil.calculateDate(date, day);
-            nbrDay = CalculateUtil.extractNbrDay(date);
-            addView(view, R.id.RecyclerViewTuesday, R.id.text_tuesday_day, date, dateFile, firstName, lastName, nbrDay);
-            //date +1
-            //day++;
-            //date = nextDay(date);
-            date = CalculateUtil.calculateDate(date, day);
-            nbrDay = CalculateUtil.extractNbrDay(date);
-            addView(view, R.id.RecyclerViewWednesday, R.id.text_wednesday_day, date, dateFile, firstName, lastName, nbrDay);
-            //date +1
-            //day++;
-            //date = nextDay(date);
-            date = CalculateUtil.calculateDate(date, day);
-            nbrDay = CalculateUtil.extractNbrDay(date);
-            addView(view, R.id.RecyclerViewThursday, R.id.text_thursday_day, date, dateFile, firstName, lastName, nbrDay);
-            //date +1
-            //day++;
-            //date = nextDay(date);
-            date = CalculateUtil.calculateDate(date, day);
-            nbrDay = CalculateUtil.extractNbrDay(date);
-            addView(view, R.id.RecyclerViewFriday, R.id.text_friday_day, date, dateFile, firstName, lastName, nbrDay);
+        date = CalculateUtil.calculateDate(date, day);
+        nbrDay = CalculateUtil.extractNbrDay(date);
+        addView(view, R.id.RecyclerViewThursday, R.id.text_thursday_day, date, nbrDay);
 
-        }
+        date = CalculateUtil.calculateDate(date, day);
+        nbrDay = CalculateUtil.extractNbrDay(date);
+        addView(view, R.id.RecyclerViewFriday, R.id.text_friday_day, date, nbrDay);
+
         return view;
     }
 
@@ -124,7 +112,8 @@ public class FragmentWeekly extends Fragment {
         // and if week is the current week !
         if (cardView != null) {
             Log.d("myLogN", "set color");
-            cardView.setBackgroundTintList(ColorStateList.valueOf(Objects.requireNonNull(getActivity()).getColor(R.color.selected)));
+            //cardView.setBackgroundTintList(ColorStateList.valueOf(Objects.requireNonNull(getActivity()).getColor(R.color.selected)));
+            cardView.setBackgroundTintList(ColorStateList.valueOf(requireActivity().getColor(R.color.selected)));
         }
         String newDate = CalculateUtil.calculateDate(date, count);
         Log.d("myLogN", "nextDay newDate : " + newDate + " | " + nbr);
@@ -132,17 +121,16 @@ public class FragmentWeekly extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void addView(View view, int theId, int idNbrDay, String date, String dateFile, String firstName, String lastName, String nbrDay){
-        //List<Course> listLessons = Routine.routine(view, date, dateFile, firstName, lastName);
-        List<Course> listLessons = Routine.routineTest(date, dateFile, firstName, lastName);
+    private void addView(View view, int theId, int idNbrDay, String date, String nbrDay){
+        List<Course> listLessons = Routine.routineTest(date, filesUtil);
         TextView textView = view.findViewById(idNbrDay);
         textView.setText(nbrDay);
         if (listLessons != null) {
             AdapterLesson myObjAdapter = new AdapterLesson(getContext(), listLessons);
-            RecyclerView mRecyclerView = view.findViewById(theId);
-            mRecyclerView.setAdapter(myObjAdapter);
-            mRecyclerView.setNestedScrollingEnabled(false);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            RecyclerView recyclerView = view.findViewById(theId);
+            recyclerView.setAdapter(myObjAdapter);
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         }
     }
 

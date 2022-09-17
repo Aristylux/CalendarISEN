@@ -45,7 +45,8 @@ public class TestFrag extends Fragment {
             String lastName = data.getString("lastname");
             //routine(view, date, dateFile, firstName, lastName);
             //listLessons = Routine.routine(view, date, dateFile, firstName, lastName);
-            listLessons = Routine.routineTest(date, dateFile, firstName, lastName);
+
+            //listLessons = Routine.routineTest(date, dateFile, firstName, lastName);
 
             if (listLessons != null) {
                 myObjAdapter = new AdapterLesson(getContext(), listLessons);

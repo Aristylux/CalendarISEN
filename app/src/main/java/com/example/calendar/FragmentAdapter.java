@@ -27,8 +27,8 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                FragmentDaily fragmentDailyMondayAdapter = new FragmentDaily();
-                return fragmentDailyMondayAdapter;
+                //FragmentDaily fragmentDailyMondayAdapter = new FragmentDaily();
+                //return fragmentDailyMondayAdapter;
         }
         return null;
     }
