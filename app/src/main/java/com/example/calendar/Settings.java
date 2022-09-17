@@ -26,9 +26,6 @@ import android.widget.Toast;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
-    String file_name_save = "stat5.txt";
-    String file_name_data = "data.csv";
-
     private UserSettings settings;
 
     @SuppressLint("CommitTransaction")
@@ -59,7 +56,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         */
 
 
-        String[] Names = readNames(file_name_save, this);
+        String[] Names = readNames(this);
         if ((Names.length) != 0){
             String format_firstname = Names[0].substring(0, 1).toUpperCase() + Names[0].substring(1);
             String format_lastname = Names[1].substring(0, 1).toUpperCase() + Names[1].substring(1);
@@ -199,8 +196,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         confirm.setOnClickListener(view -> {
             Log.d("myLog", "confirm");
             //delete
-            FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_save);
-            FilesUtil.deleteFile(String.valueOf(getFilesDir()),file_name_data);
+            FilesUtil.deleteFile(String.valueOf(getFilesDir()),FilesUtil.fileNameSaveData);
+            FilesUtil.deleteFile(String.valueOf(getFilesDir()),FilesUtil.fileCourseData);
             dialog.dismiss();   //close popup
             OpenPopupConfirmation();
         });
