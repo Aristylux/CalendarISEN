@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -65,7 +66,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         }
 
         //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_settings, new FragmentSettings()).commit();
-
 
         RelativeLayout close_button = findViewById(R.id.close_button);
         RelativeLayout buttonLanguage = findViewById(R.id.select_lang);
@@ -156,12 +156,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.select_copyright:
                 Log.d("myLogS", "click: select copyright");
-                showToast("This functionality is unavailable for the moment");
+                startActivity(new Intent(this, ActivitySetCopyright.class));
                 break;
             case R.id.select_reset:
                 Log.d("myLogS", "click: reset");
-                //open popup
-                OpenPopupWarning();
+                OpenPopupWarning();     //open popup
                 break;
         }
     }

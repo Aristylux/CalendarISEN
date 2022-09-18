@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import static com.example.calendar.Downloader.getSize;
 import static com.example.calendar.FilesUtil.*;
 
 import androidx.annotation.NonNull;
@@ -349,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
                 //downloader.Downloading(this, false);
             }
         }
+        getSize(filesUtil);
         Downloader downloader = new Downloader(this, popupWelcome, findViewById(R.id.main), filesUtil, handler);
         downloader.Downloading(false);
     }
