@@ -85,7 +85,6 @@
     <string name="setting_subtitle_darkMode_Light">Light</string>
     <string name="setting_subtitle_darkMode_Dark">Dark</string>
     <string name="setting_subtitle_darkMode_System">System</string>
-
     <string name="setting_darkMode_message">If system is selected, our application will automatically adjust your appearance based on your device\'s system settings</string>
 
     <!-- Setting Profile container -->
@@ -106,6 +105,18 @@
     <string name="setting_title_report">Report a bug</string>
 
     <string name="setting_title_copyright">Copyright 2022</string>
+    <string name="setting_copyright_close_button">Close</string>
+    <string name="setting_copyright_title">Copyright</string>
+    <string name="setting_copyright_licence_subtitle">Licence :</string>
+    <string name="setting_copyright_licence_logo">Licence Logo</string>
+    <string name="setting_copyright_message">Creative Commons BY-NC-SA 2.0\nCopying of this work is authorized subject to compliance with the terms of the license.</string>
+    <string name="setting_copyright_condition_share">• Share</string>
+    <string name="setting_copyright_condition_adapt">• Adapt</string>
+    <string name="setting_copyright_project_subtitle">Project :</string>
+    <string name="setting_copyright_text_github">This project is available on GitHub.</string>
+    <string name="setting_copyright_github_logo">Github Logo</string>
+    <string name="setting_copyright_text_button">View source code</string>
+    <string name="setting_copyright_text_licence_button">Full text licence</string>
 
     <string name="setting_title_reset">Reset the application</string>
     <string name="setting_subtitle_reset">Delete all data</string>
@@ -114,5 +125,7 @@
 
     <string name="popup_setting_reset_confirmation_title">All data are deleted.</string>
     <string name="popup_setting_reset_confirmation_subtitle">you need to restart the application.</string>
+
+
 
 </resources>

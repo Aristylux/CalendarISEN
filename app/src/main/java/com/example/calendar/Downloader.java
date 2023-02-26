@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -22,6 +23,9 @@ import android.webkit.URLUtil;
 import androidx.annotation.RequiresApi;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class Downloader {
 
@@ -67,7 +71,7 @@ public class Downloader {
                     context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                 }
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/" + getDirISENCalendar() + filesUtil.getFileName());
-                //File file = new File(path);
+                //-> File file = new File(path);
                 //request.setDestinationUri(Uri.fromFile(file));    //Error: java.lang.SecurityException: Unsupported path
 
                 Log.d("myLogD", "Download starting...");
@@ -87,8 +91,7 @@ public class Downloader {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("myLogD", "Download finish on testT");
-            //success = true;
-            runThreadTest();
+            runThread();
         }
     };
 
@@ -107,85 +110,29 @@ public class Downloader {
         }
     };
 
-    private void runThreadTest() {
-        //Runnable runnable = new Runnable() {
-        new Handler().postDelayed(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run() {
-                Log.d("myLogTr", "Diff Thread : " + Thread.currentThread().getName());
-                Log.d("myLogTr", "Path: " + filesUtil.getPathDownloadedFile());
-                //check 10s -> time out;
-                File file = new File(filesUtil.getPathDownloadedFile());
-                Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
-                //if (file.canRead()) break;
-                Log.d("myLogTr", "End thread");
-                if (file.canRead()) {   //success
-                    String[] names = {filesUtil.getFirstName(), filesUtil.getLastName()};
-                    if (saveNames(getFileNameSaveData(), names, context)) {
-                        popupWelcome.closePopup();
-                        Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil, handler);
-                    } else {
-                        Log.d("myLogTr", "error sys");
-                        //contact moderator
-                    }
-                } else {    //error
-                    Log.d("myLogTr", "Error");
-                    popupWelcome.errorPopup(context);
-                }
-                Log.d("myLogTr", "End of run()");   //terminated
-            }
-        }, 100);
-        //};
-        //Thread thread = new Thread(runnable);
-        //thread.start();
-    }
-
-    /*
-    private void runThreadTest() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                int count = 0;
-                Log.d("myLogTr", "Diff Thread : " + Thread.currentThread().getName());
-                Log.d("myLogTr", "Path: " + path);
-                //check 10s -> time out;
-                for (int i = 0; i < 20; i++) {
-                    try {
-                        Thread.sleep(500);
-                        count++;
-                        File file = new File(path);
-                        Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
-                        if (file.canRead()) break;
-                    } catch (InterruptedException e) {
-                        Log.d("myLog", "An error occurred:" + e.toString());
-                    }
-                }
-                Log.d("myLogTr", "End thread");
-                if (count < 20){
-                    //success
-                    String[] names = {FirstName, LastName};
-                    if(saveNames(fileNameSave,names, context)) {
-                        Log.d("myLog", "dismiss");
-                        //dialog.dismiss();   //close popup
-                        popupWelcome.closePopup();
-                        //MainActivity.executeRoutine(count);
-                    } else {
-                        Log.d("myLog", "error sys");
-                        //contact moderator
-                    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void runThread() {
+        new Handler().postDelayed(() -> {
+            Log.d("myLogTr", "Diff Thread : " + Thread.currentThread().getName());
+            Log.d("myLogTr", "Path: " + filesUtil.getPathDownloadedFile());
+            File file = new File(filesUtil.getPathDownloadedFile());
+            Log.d("myLogTr", "file: " + file.canRead() + " | " + file.exists());
+            if (file.canRead()) {   //success
+                String[] names = {filesUtil.getFirstName(), filesUtil.getLastName()};
+                if (saveNames(getFileNameSaveData(), names, context)) {
+                    popupWelcome.closePopup();
+                    Routine.executeRoutineTest(theView.findViewById(R.id.main), context, true, filesUtil, handler);
                 } else {
-                    //error
-                    Log.d("myLog", "Error");
-                    popupWelcome.errorPopup();
+                    Log.d("myLogTr", "error sys");
+                    //contact moderator
                 }
-                Log.d("myLogTr", "End of run()");   //terminated
+            } else {    //error
+                Log.d("myLogTr", "Error");
+                popupWelcome.errorPopup(context);
             }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
+            Log.d("myLogTr", "End of run()");   //terminated
+        }, 100);
     }
-    */
 
     /**
      * createUrl:
@@ -198,4 +145,18 @@ public class Downloader {
         return "https://ent-toulon.isen.fr/webaurion/ICS/" + firstName + "." + lastName + ".ics";
     }
 
+    public static void getSize(FilesUtil filesUtil){
+        String url = createUrl(filesUtil.getFirstName(), filesUtil.getLastName());
+        new Thread(() -> {
+            try {
+                URL myUrl = new URL(url);
+                URLConnection urlConnection = myUrl.openConnection();
+                urlConnection.connect();
+                int file_size = urlConnection.getContentLength();
+                Log.d("myLogDS", "file_size = " + file_size);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 }

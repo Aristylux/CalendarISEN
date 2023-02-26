@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/SettingContainer"
+    android:id="@+id/mainLayout">
+
+    <androidx.appcompat.widget.Toolbar
+        style="@style/ToolbarStyle"
+        android:id="@+id/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+
+        <androidx.cardview.widget.CardView
+            style="@style/BoxStyle"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_names">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/close_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="@style/SelectableItemBackground"
+                    android:backgroundTint="@color/white">
+
+                    <ImageView
+                        style="@style/ButtonClose"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_before"
+                        android:contentDescription="@string/setting_copyright_close_button" />
+                </RelativeLayout>
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tool_bar_title"
+            style="@style/ToolbarTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:text="@string/setting_copyright_title"
+            app:layout_constraintBottom_toBottomOf="@+id/close_button"
+            app:layout_constraintStart_toEndOf="@+id/close_button"
+            app:layout_constraintTop_toTopOf="@+id/close_button" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/licence_subtitle"
+        style="@style/ToolbarTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="@string/setting_copyright_licence_subtitle"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
+
+    <ImageView
+        android:id="@+id/image_copyright"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:src="@drawable/cc_by_nc_sa"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/licence_subtitle"
+        android:contentDescription="@string/setting_copyright_licence_logo" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/ParameterSubtitleTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/setting_copyright_message"
+        app:layout_constraintTop_toBottomOf="@+id/image_copyright"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <GridLayout
+        android:id="@+id/grid_copyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <TextView
+            android:id="@+id/copyright_share"
+            style="@style/ParameterTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/setting_copyright_condition_share" />
+
+        <TextView
+            android:id="@+id/copyright_adapt"
+            style="@style/ParameterTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_copyright_condition_adapt" />
+    </GridLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/licence_button"
+        style="@style/ButtonStyle"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_blue_round"
+        android:text="@string/setting_copyright_text_licence_button"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid_copyright" />
+
+    <TextView
+        android:id="@+id/project_subtitle"
+        style="@style/ToolbarTitleStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_copyright_project_subtitle"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/licence_button" />
+
+    <TextView
+        android:id="@+id/project_description"
+        style="@style/ParameterSubtitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_copyright_text_github"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_github"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/project_subtitle" />
+
+    <ImageView
+        android:id="@+id/image_github"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/github_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/project_description"
+        app:layout_constraintTop_toBottomOf="@+id/project_subtitle"
+        android:contentDescription="@string/setting_copyright_github_logo" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/source_code_button"
+        style="@style/ButtonStyle"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_blue_round"
+        android:text="@string/setting_copyright_text_button"
+        android:textAllCaps="false"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_github" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

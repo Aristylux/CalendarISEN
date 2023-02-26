@@ -40,7 +40,7 @@ public class FragmentWeekly extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weekly, container, false);
-        Log.d("myLogN", "Weekly view");
+        Log.d("myLogNW", "Weekly view");
 
         //for start to Monday
         date = firstDay(date, view);
@@ -69,14 +69,14 @@ public class FragmentWeekly extends Fragment {
     private String nextDay(String date) {
         int dateInt = CalculateUtil.strToNumber(date);
         dateInt++;
-        Log.d("myLogN", "~nextDay : " + dateInt);
+        Log.d("myLogNW", "~nextDay : " + dateInt);
         return String.valueOf(dateInt);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String firstDay(String date, View view) {
         CardView cardView = null;
-        Log.d("myLogN", "nextDay : " + date);
+        Log.d("myLogNW", "nextDay : " + date);
         int count = 0;
 
         int nbr = CalculateUtil.nbrDayOfTheWeek(date);
@@ -100,23 +100,22 @@ public class FragmentWeekly extends Fragment {
                 count -= 4;
                 cardView = view.findViewById(R.id.CardViewFriday);
                 break;
-                /*
             case 6: //it's saturday so, show next week
                 count += 2;
                 break;
             case 7: //it's sunday so, show monday next week
                 count += 1;
                 break;
-                */
+
         }
         // and if week is the current week !
         if (cardView != null) {
-            Log.d("myLogN", "set color");
+            Log.d("myLogNW", "set color");
             //cardView.setBackgroundTintList(ColorStateList.valueOf(Objects.requireNonNull(getActivity()).getColor(R.color.selected)));
             cardView.setBackgroundTintList(ColorStateList.valueOf(requireActivity().getColor(R.color.selected)));
         }
         String newDate = CalculateUtil.calculateDate(date, count);
-        Log.d("myLogN", "nextDay newDate : " + newDate + " | " + nbr);
+        Log.d("myLogNW", "nextDay newDate : " + newDate + " | " + nbr);
         return newDate;
     }
 
