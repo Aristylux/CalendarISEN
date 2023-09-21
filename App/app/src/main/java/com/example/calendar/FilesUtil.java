@@ -4,6 +4,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -30,7 +32,7 @@ import java.util.regex.Pattern;
  * File
  */
 
-public class FilesUtil {
+public class FilesUtil implements Parcelable {
 
     private static final String pathDownload = Environment.getExternalStorageDirectory().toString() + "/Download/";
     private static final String dirISENCalendar = "ISENCalendars/";
@@ -396,4 +398,13 @@ public class FilesUtil {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
 }
