@@ -42,12 +42,7 @@ public class FragmentDaily extends Fragment {
      * @return  A new instance of fragment FragmentDaily.
      */
     public static FragmentDaily newInstance(FilesUtil filesUtil){
-        FragmentDaily fragment = new FragmentDaily();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_FILES_UTIL, filesUtil);
-        args.putString(ARG_DATE, filesUtil.getDateFile());
-        fragment.setArguments(args);
-        return fragment;
+        return newInstance(filesUtil, filesUtil.getDateFile());
     }
 
     /**

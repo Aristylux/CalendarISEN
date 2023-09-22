@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             count.countWeek(type, 7);
             nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountWeek());
             verifiedDate = verificationDate(nextDate, type);
-            selectedFragment = new FragmentWeekly(filesUtil, verifiedDate);
+            selectedFragment = FragmentWeekly.newInstance(filesUtil, verifiedDate);
         }
         setFragment(selectedFragment);    //send data
         updateDate(verifiedDate);
@@ -238,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                setFragment(new FragmentWeekly(filesUtil));
+                FragmentWeekly fragmentWeekly = FragmentWeekly.newInstance(filesUtil);
+                setFragment(fragmentWeekly);
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
                 count.avoidWeekend(filesUtil.getDateFile());
                 updateDate(filesUtil.getDateFile());
