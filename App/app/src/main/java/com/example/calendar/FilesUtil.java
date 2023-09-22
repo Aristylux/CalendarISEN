@@ -13,14 +13,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * File
+ * File utility
  */
-
 public class FilesUtil implements Parcelable {
 
     private static final String pathDownload = Environment.getExternalStorageDirectory().toString() + "/Download/";
@@ -53,6 +49,24 @@ public class FilesUtil implements Parcelable {
         this.dateFile = dateFile;
         this.context = context;
     }
+
+    protected FilesUtil(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        dateFile = in.readString();
+    }
+
+    public static final Creator<FilesUtil> CREATOR = new Creator<FilesUtil>() {
+        @Override
+        public FilesUtil createFromParcel(Parcel in) {
+            return new FilesUtil(in);
+        }
+
+        @Override
+        public FilesUtil[] newArray(int size) {
+            return new FilesUtil[size];
+        }
+    };
 
     public String getDateFile(){
         return dateFile;
@@ -405,6 +419,8 @@ public class FilesUtil implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(firstName);
+        parcel.writeString(lastName);
+        parcel.writeString(dateFile);
     }
 }
