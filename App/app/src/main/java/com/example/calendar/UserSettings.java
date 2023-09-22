@@ -5,7 +5,6 @@ import android.app.Application;
 /**
  * User Settings
  */
-
 public class UserSettings extends Application {
 
     public static final String PREFERENCE = "preferences";

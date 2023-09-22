@@ -21,10 +21,19 @@ import java.util.List;
 
 public class FragmentWeekly extends Fragment {
 
-    FilesUtil filesUtil;
-    String date;
+    // The fragment initialization parameters
+    private static final String ARG_FILES_UTIL = "arg_files_util";
+    private static final String ARG_DATE = "arg_date";
+
+    private FilesUtil filesUtil;
+    private String date;
     final private static int day = 1;
 
+    public FragmentWeekly(){
+        // Required empty public constructor
+    }
+
+    /*
     public FragmentWeekly(FilesUtil filesUtil){
         this.filesUtil = filesUtil;
         this.date = filesUtil.getDateFile();
@@ -34,15 +43,55 @@ public class FragmentWeekly extends Fragment {
         this.filesUtil = filesUtil;
         this.date = date;
     }
+*/
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param filesUtil utility files
+     * @return  A new instance of fragment FragmentWeekly.
+     */
+    public static FragmentWeekly newInstance(FilesUtil filesUtil){
+        return newInstance(filesUtil, filesUtil.getDateFile());
+    }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Nullable
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param filesUtil utility files
+     * @param date      date
+     * @return  A new instance of fragment FragmentWeekly.
+     */
+    public static FragmentWeekly newInstance(FilesUtil filesUtil, String date){
+        FragmentWeekly fragment = new FragmentWeekly();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_FILES_UTIL, filesUtil);
+        args.putString(ARG_DATE, date);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null){
+            this.filesUtil = getArguments().getParcelable(ARG_FILES_UTIL);
+            this.date = getArguments().getString(ARG_DATE);
+        }
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weekly, container, false);
         Log.d("myLogNW", "Weekly view");
 
         //for start to Monday
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Log.w("myLogNW", "higher version needed");
+            return view;
+        }
         date = firstDay(date, view);
         String nbrDay = CalculateUtil.extractNbrDay(date);
         addView(view, R.id.RecyclerViewMonday, R.id.text_monday_day, date, nbrDay);
@@ -73,7 +122,7 @@ public class FragmentWeekly extends Fragment {
         return String.valueOf(dateInt);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private String firstDay(String date, View view) {
         CardView cardView = null;
         Log.d("myLogNW", "nextDay : " + date);
@@ -112,7 +161,9 @@ public class FragmentWeekly extends Fragment {
         if (cardView != null) {
             Log.d("myLogNW", "set color");
             //cardView.setBackgroundTintList(ColorStateList.valueOf(Objects.requireNonNull(getActivity()).getColor(R.color.selected)));
-            cardView.setBackgroundTintList(ColorStateList.valueOf(requireActivity().getColor(R.color.selected)));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                cardView.setBackgroundTintList(ColorStateList.valueOf(requireActivity().getColor(R.color.selected)));
+            }
         }
         String newDate = CalculateUtil.calculateDate(date, count);
         Log.d("myLogNW", "nextDay newDate : " + newDate + " | " + nbr);

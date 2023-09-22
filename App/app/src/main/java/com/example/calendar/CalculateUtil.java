@@ -1,30 +1,27 @@
 package com.example.calendar;
 
-import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class CalculateUtil {
 
-    /*
-     * nbrDayOfTheWeek :
+    /**
+     * Return the index of the day in the week
      *
-     * example :
-     * 20220108
-     * check what day is 8 January
-     * return :
-     * 1 to 7 ?
+     * @param date date : 20220108 (check what day is 8 January)
+     * @return 1 to 7 ?
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static int nbrDayOfTheWeek(String date){
         String dateStr = convertDate(date);  //convert 20220108 to 2022-01-08
-        LocalDate currentDate = LocalDate.parse(dateStr);
-        DayOfWeek days = currentDate.getDayOfWeek();
-        return DayOfWeek.valueOf(String.valueOf(days)).getValue();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDate currentDate = LocalDate.parse(dateStr);
+            DayOfWeek days = currentDate.getDayOfWeek();
+            return DayOfWeek.valueOf(String.valueOf(days)).getValue();
+        }
+        return 0;
     }
 
     /*

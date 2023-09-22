@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
             //get network (just inform)
             getSchedule();                  //Download schedule
             //set first fragment
-            sendData(new FragmentDaily(filesUtil));    //send data
+            FragmentDaily fragmentDaily = FragmentDaily.newInstance(filesUtil);
+            setFragment(fragmentDaily);
+            //sendData(new FragmentDaily(filesUtil));    //send data
         }
         count = new CountClass(NEXT, BEFORE);
 
@@ -137,15 +139,15 @@ public class MainActivity extends AppCompatActivity {
             count.countDay(type, 1); //new day
             nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountDay());
             verifiedDate = verificationDate(nextDate, type);
-            selectedFragment = new FragmentDaily(filesUtil, verifiedDate);
+            selectedFragment = FragmentDaily.newInstance(filesUtil, verifiedDate);
         } else {
             Log.d("myLogN", "button Before clicked mode weekly");
             count.countWeek(type, 7);
             nextDate = CalculateUtil.calculateDate(filesUtil.getDateFile(), count.getCountWeek());
             verifiedDate = verificationDate(nextDate, type);
-            selectedFragment = new FragmentWeekly(filesUtil, verifiedDate);
+            selectedFragment = FragmentWeekly.newInstance(filesUtil, verifiedDate);
         }
-        sendData(selectedFragment);    //send data
+        setFragment(selectedFragment);    //send data
         updateDate(verifiedDate);
     }
 
@@ -154,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what){
                 case 1:
-                    sendData(new FragmentDaily(filesUtil));
+                    FragmentDaily fragmentDaily = FragmentDaily.newInstance(filesUtil);
+                    setFragment(fragmentDaily);
                     break;
             }
             return true;
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * verificationDate:
-     *
+     * <p>
      * for avoid to show weekend
      * 6 -> SATURDAY
      * 7 -> SUNDAY
@@ -188,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
      * send data to a new fragment
      * and open the fragment
      */
-    private void sendData(Fragment fragment) {
+    private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
@@ -217,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 break;
             case UserSettings.DARK_THEME:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 break;
             case UserSettings.SYSTEM_THEME:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -235,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Weekly");
                 MODE = WEEKLY;
                 stateTypeView.setText(R.string.home_page_title_weekly);
-                sendData(new FragmentWeekly(filesUtil));
+                FragmentWeekly fragmentWeekly = FragmentWeekly.newInstance(filesUtil);
+                setFragment(fragmentWeekly);
                 //sendData(new FragmentWeeklyTest(), dateFile, dateFile, firstName, lastName);  //bug but optimised
                 count.avoidWeekend(filesUtil.getDateFile());
                 updateDate(filesUtil.getDateFile());
@@ -244,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("myLogN", "Daily");
                 MODE = DAILY;
                 stateTypeView.setText(R.string.home_page_title_daily);
-                sendData(new FragmentDaily(filesUtil));
+                FragmentDaily fragmentDaily = FragmentDaily.newInstance(filesUtil);
+                setFragment(fragmentDaily);
                 count.setCountDay(0);
                 updateDate(filesUtil.getDateFile());
                 break;
